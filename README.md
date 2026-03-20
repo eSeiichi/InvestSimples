@@ -1,2 +1,2 @@
-# InvesteSimples
+# InvestSimples
 Thesis project on investments
