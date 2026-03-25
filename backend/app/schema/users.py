@@ -2,31 +2,32 @@ from pydantic import BaseModel, EmailStr, ConfigDict
 from typing import Optional, Literal
 from uuid import UUID
 
-#Schema base de usuário
+# Base pública — campos que podem aparecer em respostas
 class UserBase(BaseModel):
-    nome: str 
+    nome: str
     username: Optional[str] = None
-    email: EmailStr                     #valida formato de e-mail automaticamente
-    senha: str
-    role: Literal["aluno", "admin"] = "aluno"   #role padrão aluno 
+    email: EmailStr                             # valida formato de e-mail automaticamente
+    role: Literal["aluno", "admin"] = "aluno"  # Literal é melhor que str puro: só aceita esses dois valores
+
     model_config = ConfigDict(
         str_strip_whitespace=True,
         str_min_length=1
-        )
+    )
 
-#dados que chegam do POST
+# Dados que chegam no POST 
 class UserCreate(UserBase):
-    senha: str
+    senha: str                                 
 
-# Resposta pública da api
+# Resposta pública da API
 class UserResponse(UserBase):
     id: UUID
 
     model_config = ConfigDict(
-        from_attributes= True,          #serializa objeto ORM direto
+        from_attributes=True,                   # serializa objeto ORM direto
+        str_strip_whitespace=True
     )
 
-# Atualização parcial de dados
+# Atualização parcial — PATCH /me
 class UserUpdate(BaseModel):
     nome: Optional[str] = None
     username: Optional[str] = None
@@ -34,5 +35,5 @@ class UserUpdate(BaseModel):
 
     model_config = ConfigDict(
         str_strip_whitespace=True,
-        str_min_length=1
+        str_min_length=1                        # se vier, não pode ser vazio
     )

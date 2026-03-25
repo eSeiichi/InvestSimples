@@ -6,10 +6,10 @@ from uuid import UUID
 # Aulas
 
 class AulaBase(BaseModel):
-    titulo = str
-    descricao = Optional[str] = None        # descricao do conteúdo da aula
+    titulo: str
+    descricao: Optional[str] = None        # descricao do conteúdo da aula
     conteudo: Optional[str] = None          # texto de conteúdo com md e html
-    url_video = Optional[str] = None        # vídeo da aula
+    url_video: Optional[str] = None        # vídeo da aula
     duracao_minutos: Optional[int] = None   # exibido na sidebar ao lado do título
     ordem: int = 0                          # posição dentro do módulo
 
@@ -21,7 +21,7 @@ class AulaBase(BaseModel):
 class AulaCreate(AulaBase):
     curso_id: UUID                         # aula sempre pertence a um módulo
 
-class AulaResponse():
+class AulaResponse(AulaBase):
     id: UUID
     curso_id: UUID
 
@@ -45,6 +45,15 @@ class CursoBase(BaseModel):
 
 class CursoCreate(CursoBase):
     pass
+
+class CursoResponse(CursoBase):           
+    id: UUID
+    aulas: list[AulaResponse] = []        # aulas direto, sem módulo no meio
+
+    model_config = ConfigDict(
+        from_attributes=True,
+        str_strip_whitespace=True
+    )
 
 class CursoListResponse(CursoBase):
     id: UUID
