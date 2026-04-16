@@ -6,6 +6,7 @@ uvicorn[standard]
 sqlalchemy
 psycopg2-binary
 alembic
+supabase
 
 # Validação e schemas
 pydantic[email]

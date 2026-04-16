@@ -44,10 +44,12 @@ def login(form: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get
     token = criar_token({"sub": str(usuario.id), "role": usuario.role})
     return {"access_token": token, "token_type": "bearer"}
 
+#manda o token e recebe as informações de usuário
 @router.get("/me", response_model=UserResponse)
 def perfil(usuario: Usuario = Depends(get_current_user)):
     """Retorna o perfil do usuário autenticado pelo JWT."""
     return usuario
+
 
 @router.patch("/me", response_model=UserResponse)
 def atualizar_perfil(dados: UserUpdate, db: Session = Depends(get_db), usuario: Usuario = Depends(get_current_user)):
