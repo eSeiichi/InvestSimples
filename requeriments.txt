@@ -1,0 +1,21 @@
+# Web framework
+fastapi
+uvicorn[standard]
+
+# Banco de dados
+sqlalchemy
+psycopg2-binary
+alembic
+supabase
+
+# Validação e schemas
+pydantic[email]
+pydantic-settings
+
+# Autenticação
+passlib[bcrypt]
+python-jose[cryptography]
+python-multipart
+
+# Variáveis de ambiente
+python-dotenv

@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.database import engine, Base
-from app.models import users  # importa todos os models para o Base reconhecer
+from app.models import users, curso  # importa todos os models para o Base reconhecer
 from app.routers import auth, cursos
 
 # cria as tabelas automaticamente
@@ -22,6 +22,8 @@ app.add_middleware(
 
 # instanciando router do auth (user)
 app.include_router(auth.router)
+# instanciando router do cursos 
+app.include_router(cursos.router)
 
 
 @app.get("/")

@@ -11,7 +11,7 @@ class AulaBase(BaseModel):
     conteudo: Optional[str] = None          # texto de conteúdo com md e html
     url_video: Optional[str] = None        # vídeo da aula
     duracao_minutos: Optional[int] = None   # exibido na sidebar ao lado do título
-    ordem: int = 0                          # posição dentro do módulo
+    ordem: int = 0                          # posição dentro do móduloa
 
     model_config = ConfigDict(
         str_strip_whitespace=True,
@@ -19,7 +19,7 @@ class AulaBase(BaseModel):
     )
 
 class AulaCreate(AulaBase):
-    curso_id: UUID                         # aula sempre pertence a um módulo
+    pass                         # aula sempre pertence a um módulo
 
 class AulaResponse(AulaBase):
     id: UUID
@@ -30,6 +30,15 @@ class AulaResponse(AulaBase):
         str_strip_whitespace=True
     )
 
+class AulaUpdate(BaseModel):
+    titulo: Optional[str] = None
+    descricao: Optional[str] = None        
+    conteudo: Optional[str] = None          
+    url_video: Optional[str] = None        
+    duracao_minutos: Optional[int] = None   
+    ordem: Optional[int] = None  
+    model_config = ConfigDict(str_strip_whitespace=True)                    
+    
 # Cursos
 
 class CursoBase(BaseModel):
@@ -64,3 +73,8 @@ class CursoListResponse(CursoBase):
         str_strip_whitespace=True
     )
 
+class CursoUpdate(BaseModel):
+    titulo: Optional[str] = None
+    descricao: Optional[str] = None
+    nivel: Optional[str] = "iniciante"                # iniciante/intermediário/avançado
+    capa_url: Optional[str] = None
