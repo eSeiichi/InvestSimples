@@ -1,9 +1,11 @@
 function Login(){
     return (
-        <div>
+        <>
             <p>Página de login</p>
-            <p>forms aqui</p>
-        </div>
+            <form>
+                
+            </form>
+        </>
     )
 }
 export default Login

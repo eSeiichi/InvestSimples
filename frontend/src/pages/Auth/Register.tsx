@@ -1,9 +1,9 @@
 function Register(){
     return (
-        <div>
-            <p>Página de Registro</p>
+        <> 
+            <p>Página de criação de conta</p>
             <p>forms aqui</p>
-        </div>
+        </>
     )
 }
 export default Register
