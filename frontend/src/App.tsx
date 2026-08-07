@@ -8,23 +8,26 @@ import AuthLayout from "./layout/AuthLayout/AuthLayout"
 // importação das páginas
 import Register from "./pages/Auth/Register";
 import Login from "./pages/Auth/Login";
+import Home from "./pages/Home/Home";
 
-// importação dos componentes
-import NavBar from "./components/NavBar/NavBar";
 
 function App() {
+  return(
   <Router>
     <Routes>
       <Route element={<MainLayout />}>
-        <Route path="/cursos" />
+        {/*arrumar essa parada aqui */}
+         <Route path="/cursos" /> 
+         <Route path="/" element={<Home/>}/>
       </Route>
       
       <Route element={<AuthLayout/>}>
-        <Route path="/regiter" element={<Register/>}/>
-        <Route path="/login" element={<Login/>}/>
+        <Route path="/auth/register" element={<Register/>}/>
+        <Route path="/auth/login" element={<Login/>}/>
       </Route>
     </Routes>
   </Router>
+  )
 }
 
 export default App;

@@ -1,8 +1,9 @@
 import {Outlet} from 'react-router-dom'
+import styles from './AuthLayout.module.css'
 
 function AuthLayout(){
     return(
-        <div>
+        <div className={styles.container}>
             <header>
                 <h1>logo</h1>
             </header>
