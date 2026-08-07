@@ -1,9 +1,15 @@
 import Input from "../../form/Input/Input";
+import RedirectButton from "../../form/RedirectButton/RedirectButton";
 import SubmitButton from "../../form/submitButton/SubmitButton";
+import { IoIosReturnLeft } from "react-icons/io";
 
 function Register() {
   return (
     <>
+      <RedirectButton link="/">
+        <IoIosReturnLeft />
+        <p>Voltar</p>
+      </RedirectButton>
       <h1>Página de registro</h1>
       <form>
         <Input
@@ -32,6 +38,9 @@ function Register() {
           placeholder="password"
         />
         <SubmitButton text="enviar" />
+        <RedirectButton link="/auth/login">
+          <p>Já possui conta?</p>
+        </RedirectButton>
       </form>
     </>
   );

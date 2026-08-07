@@ -5,7 +5,7 @@ function AuthLayout(){
     return(
         <div className={styles.container}>
             <header>
-                <h1>logo</h1>
+                <img src="/logo/Logo.png" alt="logo" width={50}/>
             </header>
             <main>
                 <Outlet />
