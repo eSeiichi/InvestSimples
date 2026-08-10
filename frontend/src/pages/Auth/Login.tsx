@@ -1,7 +1,7 @@
 import { IoIosReturnLeft } from "react-icons/io";
-import Input from "../../form/Input/Input";
-import RedirectButton from "../../form/RedirectButton/RedirectButton";
-import SubmitButton from "../../form/submitButton/SubmitButton";
+import Input from "../../components/form/Input/Input";
+import RedirectButton from "../../components/form/RedirectButton/RedirectButton";
+import SubmitButton from "../../components/form/submitButton/SubmitButton";
 
 function Login() {
   return (

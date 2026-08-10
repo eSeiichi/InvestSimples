@@ -54,7 +54,7 @@ function Footer() {
               <a href="">Suporte</a>
             </li>
             <li>
-              <a href="">termos</a>
+              <a href="">Termos</a>
             </li>
           </ul>
         </div>
@@ -62,13 +62,13 @@ function Footer() {
           <p>Funções</p>
           <ul>
             <li>
-              <Link to="/cursos">cursos</Link>
+              <Link to="/cursos">Cursos</Link>
             </li>
             <li>
-              <Link to="/auth/me">perfil</Link>
+              <Link to="/auth/me">Perfil</Link>
             </li>
             <li>
-              <Link to="/calculadora">calculadora</Link>
+              <Link to="/calc">Calculadora</Link>
             </li>
           </ul>
         </div>
