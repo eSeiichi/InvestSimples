@@ -1,26 +1,37 @@
-import { Link } from 'react-router-dom'
-import type {UUIDTypes} from 'uuid'
+import { Link } from "react-router-dom";
+import type {Course} from '../../../types/Course'
+import styles from "./CourseCard.module.css"
 
-type CourseCardProps ={
-    id: UUIDTypes,
-    titulo: string,
-    descricao: string,
-    nivel: string,
-    capaUrl: string
+
+function CourseCard({
+  id,
+  titulo,
+  descricao,
+  nivel,
+  capa_url,
+  total_aulas,
+}: Course) {
+  return (
+    <Link to={`/cursos/${id}`}>
+      <div>
+        {capa_url ? (
+          <img src={capa_url} alt={`Capa do curso ${titulo}`} />
+        ) : (
+          <div>Sem imagem</div>
+        )}
+      </div>
+
+      <div className={styles.container}>
+        <h2>{titulo}</h2>
+
+        {descricao && <p>{descricao}</p>}
+
+        <p>Quantidade de aulas: {total_aulas}</p>
+
+        <p>Nível: {nivel}</p>
+      </div>
+    </Link>
+  );
 }
 
-function CourseCard({id,titulo,descricao,nivel,capaUrl}:CourseCardProps){
-    return(
-        <Link to={`/cursos/${id}`}>  
-            <div>
-                <img src={capaUrl} alt="capa" />
-            </div>
-            <div>
-                <h2>{titulo}</h2>
-                <p>{descricao}</p>
-                <p>{nivel}</p>
-            </div>
-        </Link>
-    )
-}
-export default CourseCard
+export default CourseCard;
