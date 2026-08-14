@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { getCursos } from "../../api/cursos";
-import type { Course } from "../../types/Course";
+import type { Curso } from "../../types/Curso";
 import CourseCard from "../../components/Course/CourseCard/CourseCard";
 
 function Cursos() {
-    const [cursos, setCursos] = useState<Course[]>([]);
+    const [cursos, setCursos] = useState<Curso[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 

@@ -107,6 +107,7 @@ def listar_aulas(
         .order_by(Aula.ordem)
         .all()
     )
+
 @router.patch("/{curso_id}/aulas/{aula_id}", response_model=AulaResponse)
 def atualizar_aula(
     curso_id: UUID,

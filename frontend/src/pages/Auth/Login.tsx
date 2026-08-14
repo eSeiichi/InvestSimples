@@ -10,6 +10,7 @@ function Login() {
         <IoIosReturnLeft />
         <p>Voltar</p>
       </RedirectButton>
+
       <h1>Página de login</h1>
       <form>
         <Input
@@ -26,6 +27,7 @@ function Login() {
         />
         <SubmitButton text="enviar" />
         <RedirectButton link="/auth/register">
+            
           <p>Não possui conta? Crie uma!</p>
         </RedirectButton>
       </form>

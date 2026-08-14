@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import type {Course} from '../../../types/Course'
+import type {Course} from '../../../types/Curso'
 import styles from "./CourseCard.module.css"
 
 
