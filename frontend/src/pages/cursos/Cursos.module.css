@@ -1,0 +1,15 @@
+.container {
+    padding: 40px;
+}
+
+.container h1 {
+    margin-bottom: 30px;
+}
+
+.courseGrid {
+    display: grid;
+
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+
+    gap: 24px;
+}

@@ -9,6 +9,7 @@ import AuthLayout from "./layout/AuthLayout/AuthLayout";
 import Register from "./pages/Auth/Register";
 import Login from "./pages/Auth/Login";
 import Home from "./pages/Home/Home";
+import Cursos from "./pages/cursos/Cursos"
 
 function App() {
   return (
@@ -16,7 +17,7 @@ function App() {
       <Routes>
         <Route element={<MainLayout />}>
           {/*arrumar essa parada aqui */}
-          <Route path="/cursos" />
+          <Route path="/cursos" element={<Cursos/>}/>
           <Route path="/" element={<Home />} />
           <Route path="/me" />
         </Route>

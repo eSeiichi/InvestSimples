@@ -89,10 +89,24 @@ def criar_aula(curso_id: UUID, dados: AulaCreate, db: Session = Depends(get_db),
     return aula
 
 @router.get("/{curso_id}/aulas", response_model=list[AulaResponse])
-def listar_aulas(curso_id: UUID, db: Session = Depends(get_db)):
-    """Lista todas as aulas de um curso, ordenadas pela ordem definida."""
-    return db.query(Aula).filter(Aula.curso_id == curso_id).order_by(Aula.ordem).all()
+def listar_aulas(
+    curso_id: UUID,
+    db: Session = Depends(get_db)
+):
+    curso = db.query(Curso).filter(Curso.id == curso_id).first()
 
+    if not curso:
+        raise HTTPException(
+            status_code=404,
+            detail="Curso não encontrado"
+        )
+
+    return (
+        db.query(Aula)
+        .filter(Aula.curso_id == curso_id)
+        .order_by(Aula.ordem)
+        .all()
+    )
 @router.patch("/{curso_id}/aulas/{aula_id}", response_model=AulaResponse)
 def atualizar_aula(
     curso_id: UUID,
@@ -110,13 +124,13 @@ def atualizar_aula(
     if not curso:
         raise HTTPException(status_code=404, detail="Curso não encontrado")
     # Verifica se a aula existe e pertence ao curso
-    aula = db.query(Aula).filter(Aula.id == aula_id, Aula.curso_id == aula_id).first()
+    aula = db.query(Aula).filter(Aula.id == aula_id, Aula.curso_id == curso_id).first()
     if not aula:
         raise HTTPException(status_code=404, detail="Aula não encontrada ou não pertence ao curso")
     
     # Atualiza apenas campos preenchidos
-    for campo, valor in dados.model_dum(exclude_none=True).items():
+    for campo, valor in dados.model_dump(exclude_none=True).items():
         setattr(aula, campo, valor)
     db.commit()
-    db.refresh(curso)
+    db.refresh(aula)
     return aula
