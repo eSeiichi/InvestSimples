@@ -22,7 +22,7 @@ export async function postCurso(data: CreateCurso) {
 
         )
         return response.data
-    } catch (error) {
+    } catch (error:any) {
         if (error.response?.status === 403) {
             alert("Você não tem permissão para criar cursos")
         }

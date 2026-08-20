@@ -1,5 +1,5 @@
 import api from "./axios"
-import type { User, LoginData, LoginResponse } from "../types/User"
+import type { UserData, UserResponse, LoginData, LoginResponse , RegisterData , RegisterResponse} from "../types/User"
 
 export async function login(data: LoginData) {
     try {
@@ -8,10 +8,47 @@ export async function login(data: LoginData) {
             data
         )
         return response.data;
-    } catch (error) {
+    } catch (error:any) {
         if (error.response?.status === 401) {
             alert("Email ou senha incorretos")
         }
     }
 }
 
+export async function register(data:RegisterData) {
+    try {
+        const response = await api.post<RegisterResponse>(
+            "/auth/register/",
+            data
+        )
+        return response.data;
+    } catch (error:any){
+        if(error.response?.status === 401)
+            alert("Não foi possível criar usuário")
+    }
+}
+
+export async function getMe() {
+    try {
+        const response = await api.get<UserResponse>(
+            "/auth/me/"
+        )
+        return response.data;
+    } catch (error:any){
+        if(error.response?.status === 401)
+            alert("Não foi possível encontrar perfil")
+    }
+}
+
+export async function patchMe(data: UserData){
+    try {
+        const response = await api.patch<UserResponse>(
+            "/auth/me/",
+            data
+        )
+        return response.data;
+    } catch (error:any){
+        if(error.response?.status === 401)
+            alert("Não foi possível criar usuário")
+    }
+}

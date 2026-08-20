@@ -12,7 +12,7 @@ router = APIRouter(prefix="/auth", tags=["auth"])
 # ── Rotas de Autenticação ──────────────────────────────────────────
 
 @router.post("/register", response_model=UserResponse, status_code=201)
-def criar_usuario(user: UserCreate, db: Session = Depends(get_db)):
+def register(user: UserCreate, db: Session = Depends(get_db)):
     """Cria uma nova conta de usuário.
 
     Retorna erro 400 se o e-mail já estiver em uso.
@@ -50,7 +50,7 @@ def login(form: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get
 
     # Gera o token JWT com o ID do usuário como subject e role
     token = criar_token({"sub": str(usuario.id), "role": usuario.role})
-    return {"access_token": token, "token_type": "bearer"}
+    return {"access_token": token, "token_type": "Bearer"}
 
 # Rotas protegidas - requerem autenticação via JWT
 
@@ -58,6 +58,7 @@ def login(form: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get
 def perfil(usuario: Usuario = Depends(get_current_user)):
     """Retorna o perfil do usuário autenticado pelo JWT."""
     return usuario
+
 @router.patch("/me", response_model=UserResponse)
 def atualizar_perfil(dados: UserUpdate, db: Session = Depends(get_db), usuario: Usuario = Depends(get_current_user)):
     """Atualiza os dados do usuário autenticado.
