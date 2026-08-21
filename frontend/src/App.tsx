@@ -9,7 +9,9 @@ import AuthLayout from "./layout/AuthLayout/AuthLayout";
 import Register from "./pages/Auth/Register";
 import Login from "./pages/Auth/Login";
 import Home from "./pages/Home/Home";
-import Cursos from "./pages/cursos/Cursos"
+import Cursos from "./pages/Course/Cursos";
+import Curso from "./pages/Course/Curso";
+import Aula from "./pages/Course/Aula"
 
 function App() {
   return (
@@ -19,6 +21,7 @@ function App() {
           {/*arrumar essa parada aqui */}
           <Route path="/cursos" element={<Cursos/>}/>
           <Route path="cursos/:cursoId" element={<Curso/>}/>
+          <Route path="cursos/:cursoId/aulas/:aulaId" element={<Aula/>}/>
           <Route path="/" element={<Home />} />
           <Route path="/me" />
         </Route>

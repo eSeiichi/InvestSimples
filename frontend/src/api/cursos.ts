@@ -1,5 +1,5 @@
 import api from "./axios";
-import type { Curso, CreateCurso, UpdateCurso } from "../types/Curso"
+import type { Curso, CreateCurso, UpdateCurso, ListCurso } from "../types/Curso"
 
 
 export async function getCursos() {
@@ -9,7 +9,7 @@ export async function getCursos() {
 }
 
 export async function getCurso(id: string) {
-    const response = await api.get(`/cursos/${id}`);
+    const response = await api.get<ListCurso>(`/cursos/${id}`);
 
     return response.data;
 }
