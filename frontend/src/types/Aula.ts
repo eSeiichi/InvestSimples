@@ -1,25 +1,27 @@
-export type Aula ={
+export type AulaResponse ={
     id: string,
     titulo: string,
     descricao?: string,
     conteudo?: string,
     url_video?: string,
     duracao_minutos?: number,
-    ordem: number
+    ordem: number,
+    curso_id: string;
 }
-export type CreateAula = {
+export type AulaData = {
     titulo: string,
     descricao?: string,
     conteudo?: string,
     url_video?: string,
     duracao_minutos?: number,
-    ordem: number
+    ordem: number;
 }
+
 export type UpdateAula = {
     titulo?: string,
     descricao?: string,
     conteudo?: string,
     url_video?: string,
     duracao_minutos?: number,
-    ordem?: number
+    ordem?: number;
 }

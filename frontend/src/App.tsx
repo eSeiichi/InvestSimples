@@ -18,6 +18,7 @@ function App() {
         <Route element={<MainLayout />}>
           {/*arrumar essa parada aqui */}
           <Route path="/cursos" element={<Cursos/>}/>
+          <Route path="cursos/:cursoId" element={<Curso/>}/>
           <Route path="/" element={<Home />} />
           <Route path="/me" />
         </Route>

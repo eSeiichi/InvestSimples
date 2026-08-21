@@ -1,5 +1,5 @@
 import api from "./axios"
-import type { UserData, UserResponse, LoginData, LoginResponse , RegisterData , RegisterResponse} from "../types/User"
+import type { UserData, UserResponse, LoginData, LoginResponse, RegisterData, RegisterResponse } from "../types/User"
 
 export async function login(data: LoginData) {
     try {
@@ -8,23 +8,28 @@ export async function login(data: LoginData) {
             data
         )
         return response.data;
-    } catch (error:any) {
+    } catch (error: any) {
         if (error.response?.status === 401) {
             alert("Email ou senha incorretos")
+        } else {
+            console.log(error)
         }
     }
 }
 
-export async function register(data:RegisterData) {
+export async function register(data: RegisterData) {
     try {
         const response = await api.post<RegisterResponse>(
             "/auth/register/",
             data
         )
         return response.data;
-    } catch (error:any){
-        if(error.response?.status === 401)
+    } catch (error: any) {
+        if (error.response?.status === 401) {
             alert("Não foi possível criar usuário")
+        } else {
+            console.log(error)
+        }
     }
 }
 
@@ -34,21 +39,28 @@ export async function getMe() {
             "/auth/me/"
         )
         return response.data;
-    } catch (error:any){
-        if(error.response?.status === 401)
+    } catch (error: any) {
+        if (error.response?.status === 401) {
             alert("Não foi possível encontrar perfil")
+        } else {
+            console.log(error)
+        }
     }
 }
 
-export async function patchMe(data: UserData){
+export async function patchMe(data: UserData) {
     try {
         const response = await api.patch<UserResponse>(
             "/auth/me/",
             data
         )
         return response.data;
-    } catch (error:any){
-        if(error.response?.status === 401)
+    } catch (error: any) {
+        if (error.response?.status === 401) {
             alert("Não foi possível criar usuário")
+        } else {
+            console.log(error)
+        }
+
     }
 }

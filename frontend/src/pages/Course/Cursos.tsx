@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getCursos } from "../../api/cursos";
 import type { Curso } from "../../types/Curso";
-import CourseCard from "../../components/Course/CourseCard/CourseCard";
+import CourseCard from "../../Components/Course/CourseCard/CourseCard";
 
 function Cursos() {
     const [cursos, setCursos] = useState<Curso[]>([]);
