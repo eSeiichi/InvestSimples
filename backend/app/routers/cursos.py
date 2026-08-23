@@ -108,6 +108,21 @@ def listar_aulas(
         .all()
     )
 
+@router.get("/{curso_id}/aulas/{aula_id}", response_model=AulaResponse)
+def get_aula(
+    curso_id: UUID,
+    aula_id: UUID,
+    db: Session = Depends(get_db)
+):
+    curso = db.query(Curso).filter(Curso.id == curso_id).first()
+    if not curso:
+        raise HTTPException(status_code=404, detail="Curso não encontrado")
+    aula = db.query(Aula).filter(Aula.id == aula_id, Aula.curso_id == curso_id).first()
+    if not aula:
+        raise HTTPException(status_code=404, detail="Aula não encontrada ou não pertence ao curso")
+    return aula
+    
+
 @router.patch("/{curso_id}/aulas/{aula_id}", response_model=AulaResponse)
 def atualizar_aula(
     curso_id: UUID,
@@ -135,3 +150,4 @@ def atualizar_aula(
     db.commit()
     db.refresh(aula)
     return aula
+

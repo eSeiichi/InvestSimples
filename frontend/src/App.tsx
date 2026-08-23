@@ -11,18 +11,23 @@ import Login from "./pages/Auth/Login";
 import Home from "./pages/Home/Home";
 import Cursos from "./pages/Course/Cursos";
 import Curso from "./pages/Course/Curso";
-import Aula from "./pages/Course/Aula"
+import Aula from "./pages/Course/Aula";
+import Calc from "./pages/Calc/Calc";
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route element={<MainLayout />}>
-          {/*arrumar essa parada aqui */}
+          {/*Home path*/}
+          <Route path="/" element={<Home />} />
+          {/* courses path */}
           <Route path="/cursos" element={<Cursos/>}/>
           <Route path="cursos/:cursoId" element={<Curso/>}/>
           <Route path="cursos/:cursoId/aulas/:aulaId" element={<Aula/>}/>
-          <Route path="/" element={<Home />} />
+          {/* Calc path*/}
+          <Route path="/calc" element={<Calc/>}/>
+          {/* Me path */}
           <Route path="/me" />
         </Route>
 
