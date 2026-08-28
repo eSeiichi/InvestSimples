@@ -11,18 +11,18 @@ export type LoginResponse = {
 
 //types de Registro
 export type RegisterData = {
-    nome: string,
-    username?: string,
-    email: string,
-    senha: string,
+    nome: string;
+    username?: string;
+    email: string;
     role?: string | "aluno";
+    senha: string;
 }
 
 export type RegisterResponse = {
-    id: string,
-    nome: string,
-    username?: string,
-    email: string,
+    id: string;
+    nome: string;
+    username?: string;
+    email: string;
     senha: string,
     role?: string;
 }

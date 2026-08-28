@@ -4,6 +4,7 @@ import type { AulaResponse } from "../../types/Aula";
 import { getAula } from "../../api/aulas";
 import CourseSidebar from "../../components/Course/CourseSidebar/CourseSidebar";
 import RedirectButton from "../../components/form/RedirectButton/RedirectButton";
+import VideoPlayer from "../../Components/VideoPlayer/VideoPlayer";
 
 function Aula() {
   const { cursoId } = useParams<{ cursoId: string }>();
@@ -58,7 +59,11 @@ function Aula() {
       <div>
         <h1>{aula.titulo}</h1>
         <h2>{aula.descricao}</h2>
-        
+        <VideoPlayer 
+          url={aula.url_video}
+          height="25em"
+          width="50%"
+        />
       </div>
     </div>
   );
