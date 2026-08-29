@@ -61,7 +61,7 @@ function Footer() {
               img={profileEnzo}
               alt="Foto de Enzo Seiichi Yamakawa"
               nome="Enzo Seiichi Yamakawa"
-              cargo="Desenvolvimento"
+              cargo="Desenvolvedor"
             >
               <a
                 href="https://github.com/eSeiichi"
@@ -90,7 +90,7 @@ function Footer() {
               img={profileClaudio}
               alt="Foto de Cláudio Camilo Rodrigues Moura"
               nome="Cláudio Camilo Rodrigues Moura"
-              cargo="Desenvolvimento"
+              cargo="Desenvolvedor"
             >
               <a
                 href="https://github.com/ClaudioCamiloRMoura"
@@ -105,6 +105,14 @@ function Footer() {
                 rel="noreferrer"
               >
                 <FaInstagram aria-hidden="true" /> claudio050408
+              </a>
+
+              <a
+                href="https://www.linkedin.com/in/claudio-camilo-rodrigues-moura-41a672432/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <FaLinkedin aria-hidden="true" /> Claudio Camilo R. Moura
               </a>
             </Profile>
           </div>
