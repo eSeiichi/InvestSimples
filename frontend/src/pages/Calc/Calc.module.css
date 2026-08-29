@@ -1,0 +1,110 @@
+.pagina {
+    padding-bottom: 40px;
+}
+
+/* ---------- hero ---------- */
+.hero {
+    background: linear-gradient(135deg, var(--dark) 0%, var(--dark-soft) 100%);
+    color: var(--text-on-dark);
+}
+
+.heroInner {
+    width: 100%;
+    max-width: var(--page-max);
+    margin: 0 auto;
+    padding: 48px 24px 52px;
+}
+
+.heroTag {
+    display: inline-block;
+
+    margin-bottom: 14px;
+    padding: 5px 14px;
+    border-radius: 999px;
+
+    background-color: rgba(22, 163, 74, 0.18);
+    color: #4ade80;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.heroTitulo {
+    color: var(--text-on-dark);
+}
+
+.heroTexto {
+    max-width: 640px;
+    margin-top: 12px;
+
+    color: var(--text-on-dark-muted);
+    font-size: 1.02rem;
+}
+
+/* ---------- conteúdo ---------- */
+.conteudo {
+    width: 100%;
+    max-width: var(--page-max);
+    margin: 0 auto;
+    padding: 28px 24px 0;
+}
+
+/* abas */
+.abas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    margin-bottom: 24px;
+}
+
+.aba {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 10px 18px;
+
+    border: 1px solid var(--border);
+    border-radius: 999px;
+
+    background-color: var(--surface);
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    font-weight: 500;
+
+    transition: all 0.2s ease;
+}
+
+.aba svg {
+    font-size: 0.9em;
+}
+
+.aba:hover {
+    border-color: var(--brand);
+    color: var(--brand-strong);
+}
+
+.abaAtiva {
+    background-color: var(--brand);
+    border-color: var(--brand);
+    color: var(--brand-contrast);
+}
+
+.abaAtiva:hover {
+    background-color: var(--brand-strong);
+    color: var(--brand-contrast);
+}
+
+.painel {
+    margin-bottom: 20px;
+}
+
+.rodape {
+    max-width: 80ch;
+    padding-top: 8px;
+
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
