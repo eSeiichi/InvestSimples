@@ -1,16 +1,17 @@
 import { Outlet } from "react-router-dom";
-import NavBar from "../../components/NavBar/NavBar";
-import Footer from "../../components/Footer/Footer";
+import NavBar from "../../Components/NavBar/NavBar";
+import Footer from "../../Components/Footer/Footer";
+// modo demonstração (remover junto com src/mocks)
+import DemoBanner from "../../mocks/DemoBanner";
 import styles from "./MainLayout.module.css";
 
 function MainLayout() {
   return (
     <div className={styles.layout}>
-      <header>
-        <NavBar />
-      </header>
+      <DemoBanner />
+      <NavBar />
 
-      <main>
+      <main className={styles.content}>
         <Outlet />
       </main>
 

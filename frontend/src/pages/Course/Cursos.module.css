@@ -1,15 +1,238 @@
-.container {
-    padding: 40px;
+.pagina {
+    padding-bottom: 40px;
 }
 
-.container h1 {
-    margin-bottom: 30px;
+/* ---------- hero ---------- */
+.hero {
+    background: linear-gradient(135deg, var(--dark) 0%, var(--dark-soft) 100%);
+    color: var(--text-on-dark);
 }
 
-.courseGrid {
+.heroInner {
+    width: 100%;
+    max-width: var(--page-max);
+    margin: 0 auto;
+    padding: 56px 24px 60px;
+}
+
+.heroTag {
+    display: inline-block;
+
+    margin-bottom: 14px;
+    padding: 5px 14px;
+    border-radius: 999px;
+
+    background-color: rgba(22, 163, 74, 0.18);
+    color: #4ade80;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.heroTitulo {
+    color: var(--text-on-dark);
+}
+
+.heroTexto {
+    max-width: 620px;
+    margin-top: 12px;
+
+    color: var(--text-on-dark-muted);
+    font-size: 1.02rem;
+}
+
+/* busca */
+.buscaWrapper {
+    position: relative;
+
+    max-width: 520px;
+    margin-top: 28px;
+}
+
+.buscaIcone {
+    position: absolute;
+    top: 50%;
+    left: 18px;
+    transform: translateY(-50%);
+
+    color: var(--text-muted);
+}
+
+.busca {
+    width: 100%;
+    padding: 14px 18px 14px 46px;
+
+    border: 1px solid transparent;
+    border-radius: 999px;
+
+    background-color: var(--surface);
+    color: var(--text);
+    font: inherit;
+    font-size: 0.98rem;
+
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.busca::placeholder {
+    color: var(--text-muted);
+}
+
+.busca:focus {
+    border-color: var(--brand);
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.2);
+}
+
+/* ---------- conteúdo ---------- */
+.conteudo {
+    width: 100%;
+    max-width: var(--page-max);
+    margin: 0 auto;
+    padding: 32px 24px 0;
+}
+
+.filtros {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    margin-bottom: 20px;
+}
+
+.filtro {
+    padding: 8px 18px;
+
+    border: 1px solid var(--border);
+    border-radius: 999px;
+
+    background-color: var(--surface);
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    font-weight: 500;
+
+    transition: all 0.2s ease;
+}
+
+.filtro:hover {
+    border-color: var(--brand);
+    color: var(--brand-strong);
+}
+
+.filtroAtivo {
+    background-color: var(--brand);
+    border-color: var(--brand);
+    color: var(--brand-contrast);
+}
+
+.filtroAtivo:hover {
+    background-color: var(--brand-strong);
+    color: var(--brand-contrast);
+}
+
+.resultado {
+    margin-bottom: 16px;
+
+    color: var(--text-muted);
+    font-size: 0.88rem;
+}
+
+/* grade de cursos */
+.grid {
     display: grid;
-
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-
     gap: 24px;
+}
+
+/* ---------- estados ---------- */
+.aviso {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+
+    padding: 56px 24px;
+
+    background-color: var(--surface);
+    border: 1px dashed var(--border);
+    border-radius: var(--radius);
+
+    color: var(--text-muted);
+    text-align: center;
+}
+
+.botao {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 10px 20px;
+
+    border: none;
+    border-radius: 999px;
+
+    background-color: var(--brand);
+    color: var(--brand-contrast);
+    font-size: 0.92rem;
+    font-weight: 600;
+
+    transition: background-color 0.2s ease;
+}
+
+.botao:hover {
+    background-color: var(--brand-strong);
+}
+
+/* esqueleto de carregamento */
+.skeleton {
+    padding: 0 0 20px;
+
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+}
+
+.skeletonCapa {
+    aspect-ratio: 16 / 9;
+    margin-bottom: 16px;
+}
+
+.skeletonLinha {
+    height: 14px;
+    margin: 10px 20px;
+
+    border-radius: 6px;
+}
+
+.skeletonCurta {
+    width: 55%;
+}
+
+.skeletonCapa,
+.skeletonLinha {
+    background: linear-gradient(
+        90deg,
+        var(--surface-alt) 25%,
+        #e6eaf0 37%,
+        var(--surface-alt) 63%
+    );
+    background-size: 400% 100%;
+    animation: shimmer 1.4s ease infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: 100% 0;
+    }
+    100% {
+        background-position: 0 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .skeletonCapa,
+    .skeletonLinha {
+        animation: none;
+    }
 }

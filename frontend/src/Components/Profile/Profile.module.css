@@ -1,18 +1,18 @@
 .profile {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 16px;
 
     width: 100%;
-    max-width: 600px;
 }
 
 .imageContainer {
-    width: 100px;
-    height: 100px;
+    width: 72px;
+    height: 72px;
 
     flex-shrink: 0;
 
+    border: 2px solid var(--border-dark);
     border-radius: 50%;
     overflow: hidden;
 }
@@ -27,17 +27,28 @@
 .info {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 4px;
+
+    min-width: 0;
 }
 
-.info h2 {
+.nome {
     margin: 0;
 
-    font-size: 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
 }
 
-.info p {
-    margin: 0;
+.cargo {
+    font-size: 0.8rem;
+    color: var(--text-on-dark-muted);
+}
 
-    line-height: 1.5;
+.social {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 14px;
+
+    margin-top: 4px;
 }

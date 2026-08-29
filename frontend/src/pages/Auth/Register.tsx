@@ -1,6 +1,7 @@
-import Input from "../../components/form/Input/Input";
-import RedirectButton from "../../components/form/RedirectButton/RedirectButton";
-import SubmitButton from "../../components/form/submitButton/SubmitButton";
+import axios from "axios";
+import Input from "../../Components/form/Input/Input";
+import RedirectButton from "../../Components/form/RedirectButton/RedirectButton";
+import SubmitButton from "../../Components/form/submitButton/SubmitButton";
 import { IoIosReturnLeft } from "react-icons/io";
 import {register} from "../../api/auth"
 
@@ -27,8 +28,10 @@ function Register() {
       console.log(response)
     } catch(error){
       console.error(`Path: pages/auth/register \nFunction: handleSubmit \nError: ${error}`)
-      console.log(`Status: ${error.response?.Status}`)
-      console.log(`Data: ${error.response?.data}`)
+      if (axios.isAxiosError(error)) {
+        console.log(`Status: ${error.response?.status}`)
+        console.log(`Data: ${JSON.stringify(error.response?.data)}`)
+      }
     }
   }
 

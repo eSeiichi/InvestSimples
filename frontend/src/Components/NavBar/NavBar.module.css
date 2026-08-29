@@ -1,37 +1,165 @@
 .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 50;
 
-    background-color: #222;
-    padding: 1em;
+    background-color: var(--dark);
+    border-bottom: 1px solid var(--border-dark);
+}
+
+.inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+
+    width: 100%;
+    max-width: var(--page-max);
+    min-height: var(--nav-height);
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+/* marca */
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    color: var(--text-on-dark);
+    text-decoration: none;
+}
+
+.brand:hover {
+    color: var(--text-on-dark);
 }
 
 .logo {
-    width: 40px !important;
-    height: 40px !important;
+    width: 36px;
+    height: 36px;
 
     object-fit: contain;
 }
 
+.brandName {
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.brandAccent {
+    color: var(--brand);
+}
+
+/* menu */
+.menu {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
 .list {
     display: flex;
-    list-style: none;
     align-items: center;
+    gap: 4px;
 
+    list-style: none;
     margin: 0;
     padding: 0;
 }
 
 .item {
-    margin-right: 1em;
+    margin: 0;
 }
 
-.item a {
-    color: #fff;
+.link {
+    display: block;
+
+    padding: 8px 14px;
+    border-radius: 999px;
+
+    color: var(--text-on-dark-muted);
+    font-size: 0.95rem;
+    font-weight: 500;
     text-decoration: none;
+
+    transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-.item a:hover {
-    color: green;
+.link:hover {
+    background-color: var(--dark-soft);
+    color: var(--text-on-dark);
+}
+
+.linkAtivo {
+    background-color: var(--dark-soft);
+    color: var(--brand-contrast);
+}
+
+.loginButton {
+    margin-left: 8px;
+    padding: 9px 20px;
+    border-radius: 999px;
+
+    background-color: var(--brand);
+    color: var(--brand-contrast);
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+
+    transition: background-color 0.2s ease;
+}
+
+.loginButton:hover {
+    background-color: var(--brand-strong);
+    color: var(--brand-contrast);
+}
+
+/* botão mobile */
+.toggle {
+    display: none;
+
+    padding: 8px;
+    border: 1px solid var(--border-dark);
+    border-radius: var(--radius-sm);
+
+    background-color: transparent;
+    color: var(--text-on-dark);
+    font-size: 1.1rem;
+    line-height: 0;
+}
+
+@media (max-width: 720px) {
+    .toggle {
+        display: inline-flex;
+    }
+
+    .menu {
+        display: none;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+
+        width: 100%;
+        padding-bottom: 18px;
+    }
+
+    .menuAberto {
+        display: flex;
+    }
+
+    .list {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .link {
+        border-radius: var(--radius-sm);
+    }
+
+    .loginButton {
+        margin-left: 0;
+        text-align: center;
+    }
 }
