@@ -2,10 +2,14 @@ import api from "./axios"
 import type { UserData, UserResponse, LoginData, LoginResponse, RegisterData, RegisterResponse } from "../types/User"
 
 export async function login(data: LoginData): Promise<LoginResponse> {
+    const formData = new URLSearchParams();
+
+    formData.append("email", data.email)
+    formData.append("senha", data.senha)
 
     const response = await api.post<LoginResponse>(
         "/auth/login/",
-        data
+        formData
     );
     return response.data;
 }

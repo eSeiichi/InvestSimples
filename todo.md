@@ -1,5 +1,4 @@
 *backend*
-    * tirar o /me do auth
     * fazer a parte de profresso
 
 *Calculadora*

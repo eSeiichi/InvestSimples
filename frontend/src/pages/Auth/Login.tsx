@@ -2,14 +2,15 @@ import { IoIosReturnLeft } from "react-icons/io";
 import Input from "../../components/form/Input/Input";
 import RedirectButton from "../../components/form/RedirectButton/RedirectButton";
 import SubmitButton from "../../components/form/submitButton/SubmitButton";
-import {login} from "../../api/auth"
+import { login } from "../../api/auth"
+
 
 
 function Login() {
 
 
   async function handleSubmit(
-    event: React.FormEvent<HTMLFormElement>
+    event: React.SubmitEvent<HTMLFormElement>
   ) {
     event.preventDefault();
 
@@ -26,7 +27,7 @@ function Login() {
 
       console.log(response);
     } catch (error) {
-      console.error(error);
+      console.error(`Path: pages/auth/login \nFunction: handleSubmit \nError: ${error}`)
     }
   }
   return (
