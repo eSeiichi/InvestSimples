@@ -1,5 +1,4 @@
 *backend*
-    * tirar o /me do auth
     * fazer a parte de profresso
 
 *Calculadora*
@@ -10,6 +9,6 @@
 
 *frontend*
     * CourseSidebar
-    * /me
+    * Fazer a page /auth/me
     * tirar ou não o footer
     * implementar os métodos post e patch nas pages
