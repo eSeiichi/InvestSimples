@@ -1,63 +1,96 @@
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { IoIosReturnLeft } from "react-icons/io";
-import Input from "../../components/form/Input/Input";
-import RedirectButton from "../../components/form/RedirectButton/RedirectButton";
-import SubmitButton from "../../components/form/submitButton/SubmitButton";
-import { login } from "../../api/auth"
-
-
+import { FaExclamationCircle } from "react-icons/fa";
+import Input from "../../Components/form/Input/Input";
+import RedirectButton from "../../Components/form/RedirectButton/RedirectButton";
+import SubmitButton from "../../Components/form/submitButton/SubmitButton";
+import { login } from "../../api/auth";
+import styles from "./Login.module.css";
 
 function Login() {
+  const navigate = useNavigate();
 
+  const [enviando, setEnviando] = useState(false);
+  const [erro, setErro] = useState<string | null>(null);
 
-  async function handleSubmit(
-    event: React.SubmitEvent<HTMLFormElement>
-  ) {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     const form = new FormData(event.currentTarget);
-
     const email = form.get("email") as string;
     const senha = form.get("senha") as string;
 
-    try {
-      const response = await login({
-        email,
-        senha,
-      });
+    setEnviando(true);
+    setErro(null);
 
-      console.log(response);
+    try {
+      const resposta = await login({ email, senha });
+
+      // o interceptor do axios lê esse token para autenticar as próximas chamadas
+      localStorage.setItem("access_token", resposta.access_token);
+      navigate("/");
     } catch (error) {
-      console.error(`Path: pages/auth/login \nFunction: handleSubmit \nError: ${error}`)
+      console.error(error);
+      setErro("E-mail ou senha incorretos. Confira os dados e tente de novo.");
+    } finally {
+      setEnviando(false);
     }
   }
+
   return (
-    <>
+    <div className={styles.pagina}>
       <RedirectButton link="/">
-        <IoIosReturnLeft />
-        <p>Voltar</p>
+        <IoIosReturnLeft aria-hidden="true" />
+        <p>Voltar para o site</p>
       </RedirectButton>
 
-      <h1>Página de login</h1>
-      <form onSubmit={handleSubmit}>
+      <header className={styles.cabecalho}>
+        <h1 className={styles.titulo}>Entrar na sua conta</h1>
+        <p className={styles.subtitulo}>
+          Acesse para continuar de onde parou nos seus cursos.
+        </p>
+      </header>
+
+      {erro && (
+        <p className={styles.erro} role="alert">
+          <FaExclamationCircle aria-hidden="true" />
+          <span>{erro}</span>
+        </p>
+      )}
+
+      <form className={styles.formulario} onSubmit={handleSubmit}>
         <Input
-          type="text"
-          text="Digite seu email:"
+          type="email"
+          text="E-mail"
           name="email"
-          placeholder="abc@gmail.com"
+          placeholder="voce@email.com"
+          autoComplete="email"
+          required
+          disabled={enviando}
         />
+
         <Input
           type="password"
-          text="Digite sua senha:"
+          text="Senha"
           name="senha"
-          placeholder="senha"
+          placeholder="Sua senha"
+          autoComplete="current-password"
+          required
+          disabled={enviando}
         />
-        <SubmitButton text="enviar" />
 
-        <RedirectButton link="/auth/register">
-          <p>Não possui conta? Crie uma!</p>
-        </RedirectButton>
+        <SubmitButton text={enviando ? "Entrando..." : "Entrar"} disabled={enviando} />
       </form>
-    </>
+
+      <p className={styles.rodape}>
+        Não possui conta?{" "}
+        <Link className={styles.link} to="/auth/register">
+          Crie uma agora
+        </Link>
+      </p>
+    </div>
   );
 }
+
 export default Login;

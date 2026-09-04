@@ -9,6 +9,6 @@
 
 *frontend*
     * CourseSidebar
-    * /me
+    * Fazer a page /auth/me
     * tirar ou não o footer
     * implementar os métodos post e patch nas pages

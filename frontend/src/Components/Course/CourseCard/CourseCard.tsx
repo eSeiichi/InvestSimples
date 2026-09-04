@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
-import type {Course} from '../../../types/Curso'
-import styles from "./CourseCard.module.css"
-
+import { FaPlayCircle, FaRegListAlt, FaArrowRight } from "react-icons/fa";
+import type { Curso } from "../../../types/Curso";
+import { formatNivel, formatTotalAulas, nivelSlug } from "../../../utils/format";
+import styles from "./CourseCard.module.css";
 
 function CourseCard({
   id,
@@ -10,25 +11,39 @@ function CourseCard({
   nivel,
   capa_url,
   total_aulas,
-}: Course) {
+}: Curso) {
   return (
-    <Link to={`/cursos/${id}`}>
-      <div>
+    <Link className={styles.card} to={`/cursos/${id}`}>
+      <div className={styles.capa}>
         {capa_url ? (
-          <img src={capa_url} alt={`Capa do curso ${titulo}`} />
+          <img src={capa_url} alt={`Capa do curso ${titulo}`} loading="lazy" />
         ) : (
-          <div>Sem imagem</div>
+          <div className={styles.capaFallback}>
+            <FaPlayCircle aria-hidden="true" />
+            <span>InvestSimples</span>
+          </div>
         )}
+
+        <span className={`${styles.nivel} ${styles[nivelSlug(nivel)] ?? ""}`}>
+          {formatNivel(nivel)}
+        </span>
       </div>
 
-      <div className={styles.container}>
-        <h2>{titulo}</h2>
+      <div className={styles.conteudo}>
+        <h3 className={styles.titulo}>{titulo}</h3>
 
-        {descricao && <p>{descricao}</p>}
+        {descricao && <p className={styles.descricao}>{descricao}</p>}
 
-        <p>Quantidade de aulas: {total_aulas}</p>
+        <div className={styles.rodape}>
+          <span className={styles.meta}>
+            <FaRegListAlt aria-hidden="true" />
+            {formatTotalAulas(total_aulas)}
+          </span>
 
-        <p>Nível: {nivel}</p>
+          <span className={styles.cta}>
+            Ver curso <FaArrowRight aria-hidden="true" />
+          </span>
+        </div>
       </div>
     </Link>
   );
