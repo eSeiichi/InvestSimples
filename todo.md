@@ -1,14 +1,11 @@
 *backend*
-    * fazer a parte de profresso
-
-*Calculadora*
-    * juros simples
-    * juros composto
-    * imposto de renda
-    * CDI, IPCA e porcentagem
+    - fazer a parte de progresso
 
 *frontend*
-    * CourseSidebar
-    * Fazer a page /auth/me
-    * tirar ou não o footer
-    * implementar os métodos post e patch nas pages
+    - Fazer a page /auth/me
+    - implementar os métodos post e patch nas pages
+    - conseguir achar onde fica guardado a role do usuario
+    - renderização condicional do botão de adicionar curso e de atualizar
+
+
+
