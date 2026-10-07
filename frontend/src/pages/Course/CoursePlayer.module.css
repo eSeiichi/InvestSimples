@@ -1,0 +1,429 @@
+/* Layout compartilhado pelas páginas de curso e de aula:
+   área escura com player + playlist e, abaixo, os detalhes em fundo claro. */
+
+.pagina {
+    display: flex;
+    flex-direction: column;
+}
+
+/* ---------- área escura (player + playlist) ---------- */
+.palco {
+    background: linear-gradient(180deg, var(--dark) 0%, var(--dark-alt) 100%);
+    color: var(--text-on-dark);
+}
+
+.palcoInner {
+    width: 100%;
+    max-width: var(--page-max);
+    margin: 0 auto;
+    padding: 20px 24px 44px;
+}
+
+/* barra de navegação interna */
+.trilha {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+
+    margin-bottom: 18px;
+}
+
+.voltar {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 8px 16px;
+    border-radius: 999px;
+
+    border: 1px solid var(--border-dark);
+    background-color: transparent;
+    color: var(--text-on-dark-muted);
+    font-size: 0.88rem;
+    text-decoration: none;
+
+    transition: all 0.2s ease;
+}
+
+.voltar:hover {
+    border-color: var(--brand);
+    background-color: var(--dark-soft);
+    color: var(--text-on-dark);
+}
+
+.migalha {
+    color: var(--text-on-dark-muted);
+    font-size: 0.85rem;
+}
+
+.migalha a {
+    color: var(--text-on-dark-muted);
+    text-decoration: none;
+}
+
+.migalha a:hover {
+    color: var(--brand);
+}
+
+/* grade player + playlist */
+.grade {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 360px;
+    align-items: start;
+    gap: 24px;
+}
+
+.principal {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+
+    min-width: 0;
+}
+
+.selo {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    align-self: flex-start;
+
+    padding: 5px 14px;
+    border-radius: 999px;
+
+    background-color: rgba(22, 163, 74, 0.18);
+    color: #4ade80;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.tituloPrincipal {
+    color: var(--text-on-dark);
+}
+
+.subtitulo {
+    margin-top: 8px;
+
+    color: var(--text-on-dark-muted);
+    font-size: 1rem;
+    max-width: 70ch;
+}
+
+/* metadados do curso/aula */
+.metas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 22px;
+
+    margin-top: 4px;
+}
+
+.meta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    color: var(--text-on-dark-muted);
+    font-size: 0.88rem;
+}
+
+.meta svg {
+    color: var(--brand);
+}
+
+/* ações */
+.acoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+
+    margin-top: 4px;
+}
+
+.botaoPrimario,
+.botaoSecundario {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+
+    padding: 11px 22px;
+    border-radius: 999px;
+
+    font-size: 0.94rem;
+    font-weight: 600;
+    text-decoration: none;
+
+    transition: all 0.2s ease;
+}
+
+.botaoPrimario {
+    border: 1px solid var(--brand);
+    background-color: var(--brand);
+    color: var(--brand-contrast);
+}
+
+.botaoPrimario:hover {
+    background-color: var(--brand-strong);
+    border-color: var(--brand-strong);
+    color: var(--brand-contrast);
+}
+
+.botaoSecundario {
+    border: 1px solid var(--border-dark);
+    background-color: transparent;
+    color: var(--text-on-dark);
+}
+
+.botaoSecundario:hover {
+    border-color: var(--brand);
+    background-color: var(--dark-soft);
+    color: var(--text-on-dark);
+}
+
+.botaoDesativado {
+    opacity: 0.4;
+    pointer-events: none;
+}
+
+/* ---------- detalhes (fundo claro) ---------- */
+.detalhes {
+    width: 100%;
+    max-width: var(--page-max);
+    margin: 0 auto;
+    padding: 40px 24px 0;
+}
+
+.detalhesGrade {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 330px;
+    align-items: start;
+    gap: 28px;
+}
+
+.cartao {
+    padding: 26px 28px;
+
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+}
+
+.cartao + .cartao {
+    margin-top: 20px;
+}
+
+.cartaoTitulo {
+    margin-bottom: 12px;
+
+    font-size: 1.2rem;
+}
+
+.texto {
+    color: var(--text-muted);
+    white-space: pre-line;
+}
+
+/* lista "o que você vai aprender" */
+.aprendizados {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 10px 24px;
+
+    margin: 0;
+    padding: 0;
+
+    list-style: none;
+}
+
+.aprendizados li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+
+    color: var(--text-muted);
+    font-size: 0.93rem;
+}
+
+.aprendizados svg {
+    flex-shrink: 0;
+    margin-top: 4px;
+
+    color: var(--brand);
+}
+
+/* cartão lateral de informações */
+.infoLista {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+
+    margin: 0;
+    padding: 0;
+
+    list-style: none;
+}
+
+.infoItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+
+    padding: 12px 0;
+
+    border-bottom: 1px solid var(--border);
+
+    font-size: 0.92rem;
+}
+
+.infoItem:last-child {
+    border-bottom: none;
+}
+
+.infoRotulo {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+
+    color: var(--text-muted);
+}
+
+.infoRotulo svg {
+    color: var(--brand);
+}
+
+.infoValor {
+    font-weight: 600;
+}
+
+.infoBotao {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+
+    width: 100%;
+    margin-top: 18px;
+    padding: 12px 20px;
+    border-radius: 999px;
+
+    background-color: var(--brand);
+    color: var(--brand-contrast);
+    font-size: 0.94rem;
+    font-weight: 600;
+    text-decoration: none;
+
+    transition: background-color 0.2s ease;
+}
+
+.infoBotao:hover {
+    background-color: var(--brand-strong);
+    color: var(--brand-contrast);
+}
+
+/* ---------- estados ---------- */
+.estado {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+
+    width: 100%;
+    max-width: 520px;
+    margin: 80px auto;
+    padding: 44px 28px;
+
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+
+    color: var(--text-muted);
+    text-align: center;
+}
+
+.estadoBotao {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 10px 20px;
+    border: none;
+    border-radius: 999px;
+
+    background-color: var(--brand);
+    color: var(--brand-contrast);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.estadoBotao:hover {
+    background-color: var(--brand-strong);
+    color: var(--brand-contrast);
+}
+
+.carregandoPlayer {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+
+    background-color: var(--dark-alt);
+    border-radius: var(--radius);
+
+    animation: pulsar 1.4s ease-in-out infinite;
+}
+
+@keyframes pulsar {
+    0%,
+    100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.55;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .carregandoPlayer {
+        animation: none;
+    }
+}
+
+/* ---------- responsivo ---------- */
+@media (max-width: 1024px) {
+    .grade,
+    .detalhesGrade {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+/* capa usada quando o curso não tem vídeo de apresentação */
+.capaDestaque {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+
+    object-fit: cover;
+
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+/* esqueleto da playlist enquanto o curso carrega */
+.carregandoLista {
+    width: 100%;
+    height: 280px;
+    aspect-ratio: auto;
+
+    background-color: var(--dark-alt);
+    border-radius: var(--radius);
+
+    animation: pulsar 1.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .carregandoLista {
+        animation: none;
+    }
+}

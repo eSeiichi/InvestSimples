@@ -1,0 +1,137 @@
+.sidebar {
+    display: flex;
+    flex-direction: column;
+
+    background-color: var(--dark-alt);
+    border: 1px solid var(--border-dark);
+    border-radius: var(--radius);
+    overflow: hidden;
+
+    color: var(--text-on-dark);
+}
+
+.cabecalho {
+    padding: 18px 20px;
+
+    border-bottom: 1px solid var(--border-dark);
+}
+
+.titulo {
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.resumo {
+    margin-top: 4px;
+
+    color: var(--text-on-dark-muted);
+    font-size: 0.82rem;
+}
+
+.lista {
+    display: flex;
+    flex-direction: column;
+
+    max-height: 480px;
+    margin: 0;
+    padding: 8px;
+
+    list-style: none;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--dark-soft) transparent;
+}
+
+.lista::-webkit-scrollbar {
+    width: 8px;
+}
+
+.lista::-webkit-scrollbar-thumb {
+    background-color: var(--dark-soft);
+    border-radius: 8px;
+}
+
+.item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+
+    padding: 11px 12px;
+    border-radius: var(--radius-sm);
+
+    color: var(--text-on-dark-muted);
+    text-decoration: none;
+
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.item:hover {
+    background-color: var(--dark-soft);
+    color: var(--text-on-dark);
+}
+
+.itemAtivo {
+    background-color: rgba(22, 163, 74, 0.16);
+    color: var(--text-on-dark);
+    box-shadow: inset 3px 0 0 var(--brand);
+}
+
+.itemAtivo:hover {
+    background-color: rgba(22, 163, 74, 0.22);
+}
+
+.indice {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    width: 26px;
+    height: 26px;
+
+    border-radius: 50%;
+    background-color: var(--dark-soft);
+
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.itemAtivo .indice {
+    background-color: var(--brand);
+    color: #fff;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+
+    min-width: 0;
+}
+
+.itemTitulo {
+    font-size: 0.9rem;
+    font-weight: 500;
+    line-height: 1.35;
+}
+
+.itemMeta {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+
+    color: var(--text-on-dark-muted);
+    font-size: 0.75rem;
+}
+
+.separador {
+    opacity: 0.5;
+}
+
+.vazio {
+    padding: 24px 20px;
+
+    color: var(--text-on-dark-muted);
+    font-size: 0.88rem;
+    text-align: center;
+}

@@ -22,7 +22,6 @@ def register(user: UserCreate, db: Session = Depends(get_db)):
     existente = db.query(Usuario).filter(Usuario.email == user.email).first()
     if existente:
         raise HTTPException(status_code=400, detail="Email já cadastrado")
-
     # Cria o objeto com a senha já hasheada — nunca salva a senha pura
     novo_usuario = Usuario(
         nome=user.nome,

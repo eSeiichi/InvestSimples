@@ -1,13 +1,28 @@
-.btn{
-    background-color: #222;
-    color: #fff;
-    padding: 0.7em 1.2em;
-    text-decoration: none;
-    transition: 0.5s;
-    cursor: pointer;
+.btn {
+    width: 100%;
+    padding: 13px 20px;
+
     border: none;
+    border-radius: 999px;
+
+    background-color: var(--brand);
+    color: var(--brand-contrast);
+    font-size: 0.98rem;
+    font-weight: 600;
+
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
-.btn:hover{
-    color: #ffbb33;
+.btn:hover:not(:disabled) {
+    background-color: var(--brand-strong);
+}
+
+.btn:active:not(:disabled) {
+    transform: translateY(1px);
+}
+
+.btn:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
 }

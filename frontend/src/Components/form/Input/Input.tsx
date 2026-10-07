@@ -5,8 +5,11 @@ type InputProps = {
   text: string;
   name: string;
   placeholder?: string;
-  handleOnChange?: (e: React.ChangeEvent<HTMLInputElement>) =>void;
+  handleOnChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   value?: string;
+  required?: boolean;
+  disabled?: boolean;
+  autoComplete?: string;
 };
 
 function Input({
@@ -16,17 +19,26 @@ function Input({
   placeholder,
   handleOnChange,
   value,
+  required,
+  disabled,
+  autoComplete,
 }: InputProps) {
   return (
-    <div className={styles.form_control}>
-      <label htmlFor={name}>{text}</label>
+    <div className={styles.campo}>
+      <label className={styles.rotulo} htmlFor={name}>
+        {text}
+      </label>
       <input
+        className={styles.entrada}
         type={type}
         name={name}
         id={name}
         placeholder={placeholder}
         onChange={handleOnChange}
         value={value}
+        required={required}
+        disabled={disabled}
+        autoComplete={autoComplete}
       />
     </div>
   );

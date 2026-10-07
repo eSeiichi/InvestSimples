@@ -2,15 +2,14 @@ import styles from "./SubmitButton.module.css";
 
 type SubmitButtonProps = {
   text: string;
+  disabled?: boolean;
 };
 
-function SubmitButton({
-  text,
-}: SubmitButtonProps) {
+function SubmitButton({ text, disabled }: SubmitButtonProps) {
   return (
-    <div>
-      <button className={styles.btn}>{text}</button>
-    </div>
+    <button className={styles.btn} type="submit" disabled={disabled}>
+      {text}
+    </button>
   );
 }
 export default SubmitButton;

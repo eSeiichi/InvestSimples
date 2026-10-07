@@ -1,36 +1,142 @@
 .container {
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+
     min-height: 100vh;
 
+    background-color: var(--bg);
+}
+
+/* ---------- painel escuro da marca ---------- */
+.marca {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
+    gap: 48px;
+
+    padding: 48px 56px;
+
+    background: linear-gradient(150deg, var(--dark) 0%, var(--dark-soft) 100%);
+    color: var(--text-on-dark);
+}
+
+.brand {
+    display: inline-flex;
     align-items: center;
+    gap: 12px;
+    align-self: flex-start;
 
-    padding: 32px 20px;
-    background-color: #f5f5f5;
+    color: var(--text-on-dark);
+    text-decoration: none;
 }
 
-.container:header {
-    margin-bottom: 32px;
-
-    font-size: 28px;
-    font-weight: 700;
-}
-
-.content:main {
-    width: 100%;
-    max-width: 420px;
-
-    padding: 32px;
-
-    background-color: white;
-    border-radius: 12px;
-
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+.brand:hover {
+    color: var(--text-on-dark);
 }
 
 .logo {
-    width: 60px !important;
-    height: 60px !important;
+    width: 40px;
+    height: 40px;
 
     object-fit: contain;
+}
+
+.brandName {
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.brandAccent {
+    color: var(--brand);
+}
+
+.marcaTexto {
+    max-width: 460px;
+    margin-bottom: auto;
+}
+
+.marcaTitulo {
+    font-size: clamp(1.6rem, 1.2rem + 1.4vw, 2.2rem);
+    color: var(--text-on-dark);
+}
+
+.marcaSubtitulo {
+    margin-top: 12px;
+
+    color: var(--text-on-dark-muted);
+    font-size: 1rem;
+}
+
+.destaques {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+
+    margin-top: 32px;
+    padding: 0;
+
+    list-style: none;
+}
+
+.destaques li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+
+    color: var(--text-on-dark-muted);
+    font-size: 0.94rem;
+}
+
+.destaques svg {
+    flex-shrink: 0;
+    margin-top: 4px;
+
+    color: var(--brand);
+}
+
+/* ---------- painel do formulário ---------- */
+.painel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 48px 24px;
+}
+
+.cartao {
+    width: 100%;
+    max-width: 420px;
+
+    padding: 36px 34px;
+
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+}
+
+/* ---------- responsivo ---------- */
+@media (max-width: 900px) {
+    .container {
+        grid-template-columns: 1fr;
+    }
+
+    /* no mobile o painel da marca vira só um cabeçalho */
+    .marca {
+        gap: 0;
+        padding: 20px 24px;
+    }
+
+    .marcaTexto {
+        display: none;
+    }
+
+    .painel {
+        padding: 32px 20px 48px;
+    }
+
+    .cartao {
+        padding: 30px 24px;
+    }
 }
