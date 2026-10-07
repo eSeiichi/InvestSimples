@@ -31,7 +31,6 @@ def register(user: UserCreate, db: Session = Depends(get_db)):
         senha_hash=hash_senha(user.senha),
         role=user.role,
     )
-    db.add(novo_usuario)
     db.commit()
     db.refresh(novo_usuario)   # Atualiza o objeto com o ID gerado pelo banco
     return novo_usuario
