@@ -2,11 +2,13 @@ import { useEffect, useMemo, useState } from "react";
 import { FaSearch, FaRedo, FaEdit, FaPlus } from "react-icons/fa";
 import { getCursos, postCurso, patchCurso } from "../../api/cursos";
 import type { Curso, CreateCurso } from "../../types/Curso";
-import CourseCard from "../../Components/Course/CourseCard/CourseCard";
+import CourseCard from "../../components/Course/CourseCard/CourseCard";
 import { formatNivel, nivelSlug } from "../../utils/format";
 import styles from "./Cursos.module.css";
+import { useAuth } from "../../Contexts/AuthContext";
 
 function Cursos() {
+  const usuario = useAuth();
   const [cursos, setCursos] = useState<Curso[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -18,7 +20,7 @@ function Cursos() {
   const [cursoEditando, setCursoEditando] = useState<Curso | null>(null);
   const [salvando, setSalvando] = useState(false);
   const [erroFormulario, setErroFormulario] = useState<string | null>(null);
-  
+
   const [tentativa, setTentativa] = useState(0);
 
   //carregando os cursos da API
@@ -42,7 +44,7 @@ function Cursos() {
   // Função que tenta carregar os cursos novamente
   function tentarNovamente() {
     carregarCursos();
-    setTentativa((valor) => valor + 1)
+    setTentativa((valor) => valor + 1);
   }
 
   // Abre o formulário no modo criação
@@ -82,7 +84,7 @@ function Cursos() {
       await carregarCursos();
       fecharModal();
     } catch {
-      setErroFormulario("Não foi possível salvar o curso")
+      setErroFormulario("Não foi possível salvar o curso");
     } finally {
       setSalvando(false);
     }
@@ -105,7 +107,8 @@ function Cursos() {
 
     return cursos.filter((curso) => {
       const combinaNivel =
-        nivelSelecionado === "todos" || nivelSlug(curso.nivel) === nivelSelecionado;
+        nivelSelecionado === "todos" ||
+        nivelSlug(curso.nivel) === nivelSelecionado;
 
       const combinaBusca =
         termo === "" ||
@@ -143,22 +146,25 @@ function Cursos() {
 
       <section className={styles.conteudo}>
         {/* Botão para o administrador adicionar um curso. */}
-        <div className={styles.acoes}>
-          <button
-            type="button"
-            className={styles.botao}
-            onClick={abrirNovoCurso}
-          >
-            <FaPlus aria-hidden="true" /> Adicionar curso
-          </button>
-        </div>
+        {usuario.usuario?.role === "admin" && (
+          <div className={styles.acoes}>
+            <button
+              type="button"
+              className={styles.botao}
+              onClick={abrirNovoCurso}
+            >
+              <FaPlus aria-hidden="true" /> Adicionar curso
+            </button>
+          </div>
+        )}
 
         {!loading && !error && niveis.length > 0 && (
           <div className={styles.filtros}>
             <button
               type="button"
-              className={`${styles.filtro} ${nivelSelecionado === "todos" ? styles.filtroAtivo : ""
-                }`}
+              className={`${styles.filtro} ${
+                nivelSelecionado === "todos" ? styles.filtroAtivo : ""
+              }`}
               onClick={() => setNivelSelecionado("todos")}
             >
               Todos
@@ -168,8 +174,9 @@ function Cursos() {
               <button
                 key={slug}
                 type="button"
-                className={`${styles.filtro} ${nivelSelecionado === slug ? styles.filtroAtivo : ""
-                  }`}
+                className={`${styles.filtro} ${
+                  nivelSelecionado === slug ? styles.filtroAtivo : ""
+                }`}
                 onClick={() => setNivelSelecionado(slug)}
               >
                 {formatNivel(label)}
@@ -225,14 +232,15 @@ function Cursos() {
                     capa_url={curso.capa_url}
                     total_aulas={curso.total_aulas}
                   />
-
-                  <button
-                    type="button"
-                    className={styles.botaoEditar}
-                    onClick={() => abrirEdicao(curso)}
-                  >
-                    <FaEdit aria-hidden="true" > Editar</FaEdit>
-                  </button>
+                  {usuario.usuario?.role == "admin" && (
+                    <button
+                      type="button"
+                      className={styles.botaoEditar}
+                      onClick={() => abrirEdicao(curso)}
+                    >
+                      <FaEdit aria-hidden="true"> Editar</FaEdit>
+                    </button>
+                  )}
                 </div>
               ))}
             </div>
@@ -297,7 +305,6 @@ function CursoForm({
   const [nivel, setNivel] = useState(curso?.nivel ?? "");
   const [capaUrl, setCapaUrl] = useState(curso?.capa_url ?? "");
 
-
   async function handleSubmit(evento: React.FormEvent<HTMLFormElement>) {
     evento.preventDefault();
 
@@ -305,7 +312,7 @@ function CursoForm({
       titulo,
       descricao,
       nivel,
-      capa_url: capaUrl
+      capa_url: capaUrl,
     });
   }
 
@@ -339,7 +346,9 @@ function CursoForm({
           />
 
           <label htmlFor="nivel">Nível</label>
-          <select name="nivel" id="nivel"
+          <select
+            name="nivel"
+            id="nivel"
             value={nivel}
             onChange={(e) => setNivel(e.target.value)}
           >
@@ -347,7 +356,7 @@ function CursoForm({
             <option value="Intermediário">Intermediário</option>
             <option value="Avançado">Avançado</option>
           </select>
-          
+
           <label htmlFor="capaUrl">URL da capa</label>
           <input
             id="capaUrl"
@@ -368,11 +377,7 @@ function CursoForm({
               Cancelar
             </button>
 
-            <button
-              type="submit"
-              className={styles.botao}
-              disabled={salvando}
-            >
+            <button type="submit" className={styles.botao} disabled={salvando}>
               {salvando ? "Salvando..." : "Salvar curso"}
             </button>
           </div>

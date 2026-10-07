@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useBeforeUnload } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa";
 import styles from "./NavBar.module.css";
+import { useAuth } from "../../Contexts/AuthContext";
 
 const links = [
   { to: "/", label: "Home", end: true },
@@ -11,6 +12,7 @@ const links = [
 
 function Navbar() {
   const [aberto, setAberto] = useState(false);
+  const {usuario, logout} = useAuth();
 
   function fecharMenu() {
     setAberto(false);
@@ -53,10 +55,14 @@ function Navbar() {
               </li>
             ))}
           </ul>
-
-          <Link className={styles.loginButton} to="/auth/login" onClick={fecharMenu}>
+          { usuario ? (
+            <Link className={styles.loginButton} to="/me"> Perfil </Link>
+        ):(
+            <Link className={styles.loginButton} to="/auth/login" onClick={fecharMenu}>
             Entrar
           </Link>
+          )}
+
         </div>
       </div>
     </nav>

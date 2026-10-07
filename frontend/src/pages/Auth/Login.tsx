@@ -5,14 +5,16 @@ import { FaExclamationCircle } from "react-icons/fa";
 import Input from "../../Components/form/Input/Input";
 import RedirectButton from "../../Components/form/RedirectButton/RedirectButton";
 import SubmitButton from "../../Components/form/submitButton/SubmitButton";
-import { login } from "../../api/auth";
+import { login as loginApi } from "../../api/auth";
 import styles from "./Login.module.css";
+import { useAuth } from "../../Contexts/AuthContext";
 
 function Login() {
   const navigate = useNavigate();
 
   const [enviando, setEnviando] = useState(false);
   const [erro, setErro] = useState<string | null>(null);
+  const { login: autenticar } = useAuth();
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -25,10 +27,9 @@ function Login() {
     setErro(null);
 
     try {
-      const resposta = await login({ email, senha });
+      const resposta = await loginApi({ email, senha });
 
-      // o interceptor do axios lê esse token para autenticar as próximas chamadas
-      localStorage.setItem("access_token", resposta.access_token);
+      autenticar(resposta.access_token);
       navigate("/");
     } catch (error) {
       console.error(error);

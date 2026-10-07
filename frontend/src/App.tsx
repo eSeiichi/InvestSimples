@@ -13,6 +13,7 @@ import Cursos from "./pages/Course/Cursos";
 import Curso from "./pages/Course/Curso";
 import Aula from "./pages/Course/Aula";
 import Calc from "./pages/Calc/Calc";
+import Me from "./pages/Me";
 
 function App() {
   return (
@@ -28,7 +29,7 @@ function App() {
           {/* Calc path*/}
           <Route path="/calc" element={<Calc/>}/>
           {/* Me path */}
-          <Route path="/me" />
+          <Route path="/me" element={<Me/>}/>
         </Route>
 
         <Route element={<AuthLayout />}>

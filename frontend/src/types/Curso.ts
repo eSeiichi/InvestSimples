@@ -25,8 +25,7 @@ export type CreateCurso ={
   titulo: string,
   descricao?: string,
   nivel: string,
-  capa_url?: string,
-  total_aulas: number;
+  capa_url?: string
 };
 
 export type UpdateCurso ={
