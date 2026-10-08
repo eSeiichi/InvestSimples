@@ -13,7 +13,6 @@ const links = [
 function Navbar() {
   const [aberto, setAberto] = useState(false);
   const {usuario, logout} = useAuth();
-
   function fecharMenu() {
     setAberto(false);
   }
