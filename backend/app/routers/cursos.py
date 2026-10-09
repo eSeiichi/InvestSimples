@@ -40,7 +40,7 @@ def criar_curso(dados: CursoCreate, db: Session = Depends(get_db),
     """Cria um novo curso. Acesso restrito a administradores."""
     if usuario.role != "admin":
         raise HTTPException(status_code=403, detail="Apenas admins podem criar cursos")
-    curso = Curso(**dados.model_dump())
+    curso = Curso(**dados.model_dump(exclude_none=True))
     db.add(curso)
     db.commit()
     db.refresh(curso)
@@ -82,7 +82,7 @@ def criar_aula(curso_id: UUID, dados: AulaCreate, db: Session = Depends(get_db),
     if not curso:
         raise HTTPException(status_code=404, detail="Curso não encontrado")
     # Cria a aula associada ao curso
-    aula = Aula(**dados.model_dump(), curso_id=curso_id)
+    aula = Aula(**dados.model_dump(exclude_none=True), curso_id=curso_id)
     db.add(aula)
     db.commit()
     db.refresh(aula)

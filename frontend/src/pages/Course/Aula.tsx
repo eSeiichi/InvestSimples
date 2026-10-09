@@ -11,7 +11,7 @@ import {
 } from "react-icons/fa";
 import { getAula } from "../../api/aulas";
 import { getCurso } from "../../api/cursos";
-import type { AulaResponse } from "../../types/Aula";
+import type { Aula } from "../../types/Aula";
 import type { ListCurso } from "../../types/Curso";
 import CourseSidebar from "../../Components/Course/CourseSidebar/CourseSidebar";
 import VideoPlayer from "../../Components/VideoPlayer/VideoPlayer";
@@ -26,7 +26,7 @@ import styles from "./CoursePlayer.module.css";
 function Aula() {
   const { cursoId, aulaId } = useParams<{ cursoId: string; aulaId: string }>();
 
-  const [aula, setAula] = useState<AulaResponse | null>(null);
+  const [aula, setAula] = useState<Aula | null>(null);
   const [curso, setCurso] = useState<ListCurso | null>(null);
 
   const [loading, setLoading] = useState(true);

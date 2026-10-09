@@ -1,4 +1,4 @@
-import type { AulaResponse} from "./Aula"
+import type { Aula} from "./Aula"
 
 //type padrão de curso, utilizado /cursos/
 export type Curso = {
@@ -18,7 +18,7 @@ export type ListCurso = {
   descricao?: string | null;
   nivel: string;
   capa_url?: string | null;
-  aulas: AulaResponse[];
+  aulas: Aula[];
 };
 
 export type CreateCurso ={

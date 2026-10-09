@@ -8,6 +8,7 @@ import {
   FaRegListAlt,
   FaRedo,
   FaSignal,
+  FaPlus,
 } from "react-icons/fa";
 import { getCurso } from "../../api/cursos";
 import type { ListCurso } from "../../types/Curso";
@@ -21,52 +22,89 @@ import {
   ordenarAulas,
 } from "../../utils/format";
 import styles from "./CoursePlayer.module.css";
+import { useAuth } from "../../Contexts/AuthContext";
+import type { Aula, AulaData } from "../../types/Aula";
+import { patchAula, postAula } from "../../api/aulas";
+import CustomForm from "../../components/form/CustomForm/CustomForm";
 
 function Curso() {
+  const usuario = useAuth();
   const { cursoId } = useParams<{ cursoId: string }>();
 
   const [curso, setCurso] = useState<ListCurso | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const [modalAberto, setModalAberto] = useState(false);
+  const [aulaEditando, setAulaEditando] = useState<Aula | null>(null);
+  const [salvando, setSalvando] = useState(false);
+  const [erroFormulario, setErroFormulario] = useState<string | null>(null);
+
   // incrementado pelo botão "tentar novamente" para refazer a requisição
   const [tentativa, setTentativa] = useState(0);
 
-  useEffect(() => {
-    if (!cursoId) {
-      return;
-    }
-
-    let ativo = true;
-
-    async function carregarCurso(id: string) {
-      try {
-        const data = await getCurso(id);
-        if (ativo) {
-          setCurso(data);
-        }
-      } catch {
-        if (ativo) {
-          setError("Não foi possível carregar o curso.");
-        }
-      } finally {
-        if (ativo) {
-          setLoading(false);
-        }
-      }
-    }
-
-    carregarCurso(cursoId);
-
-    return () => {
-      ativo = false;
-    };
-  }, [cursoId, tentativa]);
-
-  function tentarNovamente() {
+  async function carregarCurso(id: string) {
     setLoading(true);
     setError(null);
+    try {
+      const data = await getCurso(id);
+      setCurso(data);
+    } catch {
+      setError("Não foio possível carregar os cursos.")
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    carregarCurso(cursoId);
+  }, [cursoId, tentativa])
+
+  function tentarNovamente() {
+    carregarCurso(cursoId);
     setTentativa((valor) => valor + 1);
+  }
+
+  function abrirNovaAula() {
+    setAulaEditando(null);
+    setErroFormulario(null);
+    setModalAberto(true);
+  }
+
+  function abrirEdicao(aula: Aula) {
+    setAulaEditando(aula);
+    setErroFormulario(null);
+    setModalAberto(true);
+  }
+
+  function fecharModal() {
+    if (salvando) return;
+
+    setModalAberto(false);
+    setAulaEditando(null);
+    setErroFormulario(null);
+  }
+
+  async function salvarAula(data: AulaData) {
+    if (!cursoId) return;
+
+    setSalvando(true)
+    setErroFormulario(null);
+
+    try {
+      if (aulaEditando) {
+        await patchAula(cursoId, aulaEditando.id, data);
+      } else {
+        await postAula(cursoId, data)
+      }
+
+      await carregarCurso(cursoId);
+      fecharModal();
+    } catch {
+      setErroFormulario("Não é possível salvar o curso");
+    } finally {
+      setSalvando(false);
+    }
   }
 
   if (!cursoId) {
@@ -123,12 +161,24 @@ function Curso() {
       <section className={styles.palco}>
         <div className={styles.palcoInner}>
           <div className={styles.trilha}>
-            <Link className={styles.voltar} to="/cursos">
-              <FaArrowLeft aria-hidden="true" /> Voltar para cursos
-            </Link>
-            <p className={styles.migalha}>
-              <Link to="/cursos">Cursos</Link> / {curso.titulo}
-            </p>
+            <div>
+              <Link className={styles.voltar} to="/cursos">
+                <FaArrowLeft aria-hidden="true" /> Voltar para cursos
+              </Link>
+              {usuario.usuario?.role === "admin" && (
+                <button
+                  type="button"
+                  className={styles.botaoNovaAula}
+                  onClick={abrirNovaAula}
+                >
+                  <FaPlus aria-hidden="true" /> Adicionar aula
+                </button>
+              )
+              }
+              <p className={styles.migalha}>
+                <Link to="/cursos">Cursos</Link> / {curso.titulo}
+              </p>
+            </div>
           </div>
 
           <div className={styles.grade}>
@@ -170,7 +220,7 @@ function Curso() {
                 </span>
               </div>
 
-              <div className={styles.acoes}>
+              <div className={styles.acoesEdicao}>
                 {primeiraAula ? (
                   <Link
                     className={styles.botaoPrimario}
@@ -258,8 +308,119 @@ function Curso() {
           </aside>
         </div>
       </section>
+      {/* {modalAberto && (
+        
+      )} */}
     </div>
   );
 }
-
 export default Curso;
+
+type AulaFormProps = {
+  aula: Aula | null;
+  salvando: boolean;
+  erro: string | null;
+  onSubmit: (data: AulaData) => Promise<void>;
+  onClose: () => void;
+};
+
+function AulaForm({
+  aula,
+  salvando,
+  erro,
+  onSubmit,
+  onClose
+}:AulaFormProps){
+  const [titulo, setTitulo] = useState(aula?.titulo ?? "");
+  const [descricao, setDescricao] = useState(aula?.descricao ?? "");
+  const [conteudo, setConteudo] = useState(aula?.conteudo ?? "");
+  const [url_video, setUrl_video] = useState(aula?.url_video ?? "");
+  const [duracao_minutos, setDuracao_minutos] = useState(aula?.duracao_minutos ?? 0);
+  const [ordem, setOrdem] = useState(aula?.ordem ?? 0);
+
+  async function handleSubmit(evento: React.FormEvent<HTMLFormElement>) {
+    evento.preventDefault();
+
+    await onSubmit({
+      titulo,
+      descricao,
+      conteudo,
+      url_video,
+      duracao_minutos,
+      ordem
+    });
+    
+  }
+{/*
+  return(
+    <div className={styles.modalOverlay}>
+       <div
+        className={styles.modal}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="titulo-modal-curso"
+      >
+        <h2 id="titulo-modal-curso">
+          {curso ? "Editar curso" : "Adicionar curso"}
+        </h2>
+
+        <CustomForm onSubmit={handleSubmit}>
+          <label htmlFor="titulo">Título</label>
+          <input
+            id="titulo"
+            value={titulo}
+            onChange={(evento) => setTitulo(evento.target.value)}
+            required
+          />
+
+          <label htmlFor="descricao">Descrição</label>
+          <textarea
+            id="descricao"
+            value={descricao}
+            onChange={(evento) => setDescricao(evento.target.value)}
+            rows={4}
+          />
+
+          <label htmlFor="nivel">Nível</label>
+          <select
+            name="nivel"
+            id="nivel"
+            value={nivel}
+            onChange={(e) => setNivel(e.target.value)}
+          >
+            <option value="Iniciante">Iniciante</option>
+            <option value="Intermediário">Intermediário</option>
+            <option value="Avançado">Avançado</option>
+          </select>
+
+          <label htmlFor="capaUrl">URL da capa</label>
+          <input
+            id="capaUrl"
+            type="url"
+            value={capaUrl}
+            onChange={(evento) => setCapaUrl(evento.target.value)}
+          />
+
+          {erro && <p className={styles.erroFormulario}>{erro}</p>}
+
+          <div className={styles.acoesModal}>
+            <button
+              type="button"
+              className={styles.botaoCancelar}
+              onClick={onClose}
+              disabled={salvando}
+            >
+              Cancelar
+            </button>
+
+            <button type="submit" className={styles.botao} disabled={salvando}>
+              {salvando ? "Salvando..." : "Salvar curso"}
+            </button>
+          </div> 
+        </CustomForm>
+      </div>
+    </div>
+  )
+}
+  */}
+

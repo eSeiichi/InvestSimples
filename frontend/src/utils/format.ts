@@ -1,4 +1,4 @@
-import type { AulaResponse } from "../types/Aula";
+import type { Aula } from "../types/Aula";
 
 /** Deixa o nível com a primeira letra maiúscula ("iniciante" -> "Iniciante") */
 export function formatNivel(nivel?: string | null): string {
@@ -45,11 +45,11 @@ export function formatDuracao(minutos?: number | null): string {
 }
 
 /** Soma a duração de todas as aulas do curso */
-export function duracaoTotal(aulas: AulaResponse[]): number {
+export function duracaoTotal(aulas: Aula[]): number {
   return aulas.reduce((total, aula) => total + (aula.duracao_minutos ?? 0), 0);
 }
 
 /** Ordena as aulas pelo campo "ordem" sem alterar o array original */
-export function ordenarAulas(aulas: AulaResponse[]): AulaResponse[] {
+export function ordenarAulas(aulas: Aula[]): Aula[] {
   return [...aulas].sort((a, b) => a.ordem - b.ordem);
 }

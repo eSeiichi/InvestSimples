@@ -233,7 +233,7 @@ function Cursos() {
                     capa_url={curso.capa_url}
                     total_aulas={curso.total_aulas}
                   />
-                  {usuario.usuario?.role == "admin" && (
+                  {usuario.usuario?.role === "admin" && (
                     <button
                       type="button"
                       className={styles.botaoEditar}

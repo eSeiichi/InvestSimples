@@ -1,12 +1,12 @@
 import api from "./axios";
-import type { AulaData, AulaResponse, UpdateAula } from "../types/Aula";
+import type { AulaData, Aula, AulaUpdate } from "../types/Aula";
 
 //criar aula
-export async function postAulas(
+export async function postAula(
   curso_id: string,
   data: AulaData
-): Promise<AulaResponse> {
-  const response = await api.post<AulaResponse>(
+): Promise<Aula> {
+  const response = await api.post<Aula>(
     `/cursos/${curso_id}/aulas`,
     data,
   );
@@ -14,8 +14,8 @@ export async function postAulas(
 }
 
 //listar aulas do curso
-export async function getAulas(curso_id: string): Promise<AulaResponse[]> {
-  const response = await api.get<AulaResponse[]>(`/cursos/${curso_id}/aulas`);
+export async function getAulas(curso_id: string): Promise<Aula[]> {
+  const response = await api.get<Aula[]>(`/cursos/${curso_id}/aulas`);
 
   return response.data;
 }
@@ -24,8 +24,8 @@ export async function getAulas(curso_id: string): Promise<AulaResponse[]> {
 export async function getAula(
   curso_id: string,
   aula_id: string,
-): Promise<AulaResponse> {
-  const response = await api.get<AulaResponse>(
+): Promise<Aula> {
+  const response = await api.get<Aula>(
     `/cursos/${curso_id}/aulas/${aula_id}`,
   );
 
@@ -33,12 +33,12 @@ export async function getAula(
 }
 
 //editar aula
-export async function patchAulas(
+export async function patchAula(
   curso_id: string,
   aula_id: string,
-  data: UpdateAula,
-): Promise<AulaResponse> {
-  const response = await api.patch<AulaResponse>(
+  data: AulaUpdate
+): Promise<Aula> {
+  const response = await api.patch<Aula>(
     `/cursos/${curso_id}/aulas/${aula_id}`,
     data,
   );

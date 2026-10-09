@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { FaPlay, FaRegClock, FaRegPlayCircle } from "react-icons/fa";
-import type { AulaResponse } from "../../../types/Aula";
+import type { Aula } from "../../../types/Aula";
 import {
   duracaoTotal,
   formatDuracao,
@@ -11,7 +11,7 @@ import styles from "./CourseSidebar.module.css";
 
 type CourseSidebarProps = {
   cursoId: string;
-  aulas: AulaResponse[];
+  aulas: Aula[];
   /** id da aula que está sendo assistida (destacada na lista) */
   aulaAtivaId?: string;
   titulo?: string;

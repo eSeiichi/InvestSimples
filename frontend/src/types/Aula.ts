@@ -1,4 +1,4 @@
-export type AulaResponse ={
+export type Aula ={
     id: string,
     titulo: string,
     descricao?: string,
