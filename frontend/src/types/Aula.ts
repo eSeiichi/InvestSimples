@@ -17,7 +17,7 @@ export type AulaData = {
     ordem: number;
 }
 
-export type UpdateAula = {
+export type AulaUpdate = {
     titulo?: string,
     descricao?: string,
     conteudo?: string,

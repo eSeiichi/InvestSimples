@@ -50,17 +50,25 @@ function Curso() {
       const data = await getCurso(id);
       setCurso(data);
     } catch {
-      setError("Não foio possível carregar os cursos.")
+      setError("Não foio possível carregar os cursos.");
     } finally {
       setLoading(false);
     }
   }
 
   useEffect(() => {
+    if (!cursoId) {
+      setError("Id do curso não informado");
+      setLoading(false);
+      return;
+    }
+
     carregarCurso(cursoId);
-  }, [cursoId, tentativa])
+  }, [cursoId, tentativa]);
 
   function tentarNovamente() {
+    if (!cursoId) return;
+
     carregarCurso(cursoId);
     setTentativa((valor) => valor + 1);
   }
@@ -88,14 +96,14 @@ function Curso() {
   async function salvarAula(data: AulaData) {
     if (!cursoId) return;
 
-    setSalvando(true)
+    setSalvando(true);
     setErroFormulario(null);
 
     try {
       if (aulaEditando) {
         await patchAula(cursoId, aulaEditando.id, data);
       } else {
-        await postAula(cursoId, data)
+        await postAula(cursoId, data);
       }
 
       await carregarCurso(cursoId);
@@ -138,7 +146,11 @@ function Curso() {
       <div className={styles.estado}>
         <p>{error ?? "Curso não encontrado."}</p>
         <div className={styles.acoes}>
-          <button type="button" className={styles.estadoBotao} onClick={tentarNovamente}>
+          <button
+            type="button"
+            className={styles.estadoBotao}
+            onClick={tentarNovamente}
+          >
             <FaRedo aria-hidden="true" /> Tentar novamente
           </button>
           <Link className={styles.estadoBotao} to="/cursos">
@@ -173,8 +185,7 @@ function Curso() {
                 >
                   <FaPlus aria-hidden="true" /> Adicionar aula
                 </button>
-              )
-              }
+              )}
               <p className={styles.migalha}>
                 <Link to="/cursos">Cursos</Link> / {curso.titulo}
               </p>
@@ -229,7 +240,9 @@ function Curso() {
                     <FaPlay aria-hidden="true" /> Começar o curso
                   </Link>
                 ) : (
-                  <span className={`${styles.botaoPrimario} ${styles.botaoDesativado}`}>
+                  <span
+                    className={`${styles.botaoPrimario} ${styles.botaoDesativado}`}
+                  >
                     <FaPlay aria-hidden="true" /> Em breve
                   </span>
                 )}
@@ -279,7 +292,9 @@ function Curso() {
                 <span className={styles.infoRotulo}>
                   <FaSignal aria-hidden="true" /> Nível
                 </span>
-                <span className={styles.infoValor}>{formatNivel(curso.nivel)}</span>
+                <span className={styles.infoValor}>
+                  {formatNivel(curso.nivel)}
+                </span>
               </li>
               <li className={styles.infoItem}>
                 <span className={styles.infoRotulo}>
@@ -308,13 +323,19 @@ function Curso() {
           </aside>
         </div>
       </section>
-      {/* {modalAberto && (
-        
-      )} */}
+
+      {modalAberto && (
+        <AulaForm
+          aula={aulaEditando}
+          salvando={salvando}
+          erro={erroFormulario}
+          onSubmit={salvarAula}
+          onClose={fecharModal}
+        />
+      )}
     </div>
   );
 }
-export default Curso;
 
 type AulaFormProps = {
   aula: Aula | null;
@@ -324,18 +345,14 @@ type AulaFormProps = {
   onClose: () => void;
 };
 
-function AulaForm({
-  aula,
-  salvando,
-  erro,
-  onSubmit,
-  onClose
-}:AulaFormProps){
+function AulaForm({ aula, salvando, erro, onSubmit, onClose }: AulaFormProps) {
   const [titulo, setTitulo] = useState(aula?.titulo ?? "");
   const [descricao, setDescricao] = useState(aula?.descricao ?? "");
   const [conteudo, setConteudo] = useState(aula?.conteudo ?? "");
   const [url_video, setUrl_video] = useState(aula?.url_video ?? "");
-  const [duracao_minutos, setDuracao_minutos] = useState(aula?.duracao_minutos ?? 0);
+  const [duracao_minutos, setDuracao_minutos] = useState(
+    aula?.duracao_minutos ?? 0,
+  );
   const [ordem, setOrdem] = useState(aula?.ordem ?? 0);
 
   async function handleSubmit(evento: React.FormEvent<HTMLFormElement>) {
@@ -347,21 +364,20 @@ function AulaForm({
       conteudo,
       url_video,
       duracao_minutos,
-      ordem
+      ordem,
     });
-    
   }
-{/*
-  return(
+
+  return (
     <div className={styles.modalOverlay}>
-       <div
+      <div
         className={styles.modal}
         role="dialog"
         aria-modal="true"
-        aria-labelledby="titulo-modal-curso"
+        aria-labelledby="titulo-modal-aula"
       >
-        <h2 id="titulo-modal-curso">
-          {curso ? "Editar curso" : "Adicionar curso"}
+        <h2 id="titulo-modal-aula">
+          {aula ? "Editar aula" : "Adicionar aula"}
         </h2>
 
         <CustomForm onSubmit={handleSubmit}>
@@ -381,24 +397,38 @@ function AulaForm({
             rows={4}
           />
 
-          <label htmlFor="nivel">Nível</label>
-          <select
-            name="nivel"
-            id="nivel"
-            value={nivel}
-            onChange={(e) => setNivel(e.target.value)}
-          >
-            <option value="Iniciante">Iniciante</option>
-            <option value="Intermediário">Intermediário</option>
-            <option value="Avançado">Avançado</option>
-          </select>
+          <label htmlFor="conteudo">Conteúdo</label>
+          <textarea
+            name="conteudo"
+            id="conteudo"
+            value={conteudo}
+            onChange={(e) => setConteudo(e.target.value)}
+          />
 
-          <label htmlFor="capaUrl">URL da capa</label>
+          <label htmlFor="url_video">URL do vídeo</label>
           <input
-            id="capaUrl"
+            id="url_video"
             type="url"
-            value={capaUrl}
-            onChange={(evento) => setCapaUrl(evento.target.value)}
+            value={url_video}
+            onChange={(evento) => setUrl_video(evento.target.value)}
+          />
+
+          <label htmlFor="duracao_minutos">Duracao do video (minutos) </label>
+          <input
+            id="duracao_minutos"
+            type="number"
+            value={duracao_minutos}
+            onChange={(evento) =>
+              setDuracao_minutos(Number(evento.target.value))
+            }
+          />
+
+          <label htmlFor="ordem">Ordem do vídeo </label>
+          <input
+            id="ordem"
+            type="number"
+            value={ordem}
+            onChange={(evento) => setOrdem(Number(evento.target.value))}
           />
 
           {erro && <p className={styles.erroFormulario}>{erro}</p>}
@@ -416,11 +446,11 @@ function AulaForm({
             <button type="submit" className={styles.botao} disabled={salvando}>
               {salvando ? "Salvando..." : "Salvar curso"}
             </button>
-          </div> 
+          </div>
         </CustomForm>
       </div>
     </div>
-  )
+  );
 }
-  */}
 
+export default Curso;
