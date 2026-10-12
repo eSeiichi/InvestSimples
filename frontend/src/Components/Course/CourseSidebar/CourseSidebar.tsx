@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { FaPlay, FaRegClock, FaRegPlayCircle } from "react-icons/fa";
+import { FaEdit, FaPlay, FaRegClock, FaRegPlayCircle } from "react-icons/fa";
 import type { Aula } from "../../../types/Aula";
 import {
   duracaoTotal,
@@ -9,12 +9,15 @@ import {
 } from "../../../utils/format";
 import styles from "./CourseSidebar.module.css";
 
+console.log("CourseSideBar.tsx carregado")
 type CourseSidebarProps = {
   cursoId: string;
   aulas: Aula[];
   /** id da aula que está sendo assistida (destacada na lista) */
   aulaAtivaId?: string;
   titulo?: string;
+  isAdmin: boolean;
+  onEditarAula: (aula: Aula) => void;
 };
 
 function CourseSidebar({
@@ -22,10 +25,12 @@ function CourseSidebar({
   aulas,
   aulaAtivaId,
   titulo = "Conteúdo do curso",
+  isAdmin,
+  onEditarAula,
 }: CourseSidebarProps) {
+  console.log("isAdmin: ",isAdmin)
   const lista = ordenarAulas(aulas);
   const total = duracaoTotal(lista);
-
   return (
     <aside className={styles.sidebar}>
       <div className={styles.cabecalho}>
@@ -44,7 +49,7 @@ function CourseSidebar({
             const ativa = aula.id === aulaAtivaId;
 
             return (
-              <li key={aula.id}>
+              <li key={aula.id} className={styles.linha}>
                 <Link
                   className={`${styles.item} ${ativa ? styles.itemAtivo : ""}`}
                   to={`/cursos/${cursoId}/aulas/${aula.id}`}
@@ -57,15 +62,9 @@ function CourseSidebar({
                   <span className={styles.info}>
                     <span className={styles.itemTitulo}>{aula.titulo}</span>
                     <span className={styles.itemMeta}>
-                      {aula.url_video ? (
-                        <>
-                          <FaRegPlayCircle aria-hidden="true" /> Vídeo
-                        </>
-                      ) : (
-                        <>
-                          <FaRegPlayCircle aria-hidden="true" /> Leitura
-                        </>
-                      )}
+                      <FaRegPlayCircle aria-hidden="true"/>
+                      {aula.url_video ? "Vídeo" : "Leitura"}
+
                       {aula.duracao_minutos ? (
                         <>
                           <span className={styles.separador}>•</span>
@@ -76,6 +75,18 @@ function CourseSidebar({
                     </span>
                   </span>
                 </Link>
+
+                {isAdmin && (
+                  <button
+                    type="button"
+                    className={styles.botaoEditar}
+                    onClick={()=>onEditarAula(aula)}
+                    aria-label={`Editar aula ${aula.titulo}`}
+                    title="Editar aula"
+                  >
+                    <FaEdit aria-hidden="true"/> 
+                  </button>
+                )}
               </li>
             );
           })}

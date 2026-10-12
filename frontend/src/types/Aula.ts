@@ -10,18 +10,18 @@ export type Aula ={
 }
 export type AulaData = {
     titulo: string,
-    descricao?: string,
-    conteudo?: string,
-    url_video?: string,
-    duracao_minutos?: number,
+    descricao?: string | null,
+    conteudo?: string | null,
+    url_video?: string | null,
+    duracao_minutos?: number | null,
     ordem: number;
 }
 
 export type AulaUpdate = {
     titulo?: string,
-    descricao?: string,
-    conteudo?: string,
-    url_video?: string,
-    duracao_minutos?: number,
+    descricao?: string | null,
+    conteudo?: string | null,
+    url_video?: string | null,
+    duracao_minutos?: number | null,
     ordem?: number;
 }

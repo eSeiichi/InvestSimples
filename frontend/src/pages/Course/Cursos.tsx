@@ -151,7 +151,7 @@ function Cursos() {
           <div className={styles.acoes}>
             <button
               type="button"
-              className={styles.botao}
+              className={styles.botaoNovoCurso}
               onClick={abrirNovoCurso}
             >
               <FaPlus aria-hidden="true" /> Adicionar curso
