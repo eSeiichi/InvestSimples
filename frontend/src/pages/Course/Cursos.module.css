@@ -92,12 +92,21 @@
     padding: 32px 24px 0;
 }
 
+/* filtros à esquerda, "Adicionar curso" à direita */
+.barraFiltros {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+
+    margin-bottom: 20px;
+}
+
 .filtros {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-
-    margin-bottom: 20px;
 }
 
 .filtro {
@@ -110,6 +119,7 @@
     color: var(--text-muted);
     font-size: 0.9rem;
     font-weight: 500;
+    cursor: pointer;
 
     transition: all 0.2s ease;
 }
@@ -130,6 +140,32 @@
     color: var(--brand-contrast);
 }
 
+/* botões primários (pílula verde) */
+.botao,
+.botaoNovoCurso {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 10px 20px;
+
+    border: none;
+    border-radius: 999px;
+
+    background-color: var(--brand);
+    color: var(--brand-contrast);
+    font-size: 0.92rem;
+    font-weight: 600;
+    cursor: pointer;
+
+    transition: background-color 0.2s ease;
+}
+
+.botao:hover,
+.botaoNovoCurso:hover {
+    background-color: var(--brand-strong);
+}
+
 .resultado {
     margin-bottom: 16px;
 
@@ -137,11 +173,43 @@
     font-size: 0.88rem;
 }
 
-/* grade de cursos */
+/* ---------- grade de cursos ---------- */
 .grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 24px;
+}
+
+.cardWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.botaoEditar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    width: 100%;
+    padding: 10px 16px;
+
+    border: 1px solid var(--border);
+    border-radius: 8px;
+
+    background-color: var(--surface);
+    color: var(--text);
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+.botaoEditar:hover {
+    border-color: var(--brand);
+    color: var(--brand);
 }
 
 /* ---------- estados ---------- */
@@ -198,88 +266,6 @@
     background-size: 400% 100%;
     animation: shimmer 1.4s ease infinite;
 }
-/* botao edição */
-.acoes {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 24px;
-  }
-.cardWrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.botaoEditar {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-
-    width: 100%;
-    padding: 10px 16px;
-
-    border: 1px solid var(--border);
-    border-radius: 8px;
-
-    background-color: var(--surface);
-    color: var(--text);
-
-    font: inherit;
-    font-weight: 600;
-
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.botaoEditar:hover {
-    border-color: var(--brand);
-    color: var(--brand);
-}
-.botaoNovoCurso {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-
-    padding: 10px 20px;
-
-    border: none;
-    border-radius: 999px;
-
-    background-color: var(--brand);
-    color: var(--brand-contrast);
-    font-size: 0.92rem;
-    font-weight: 600;
-
-    transition: background-color 0.2s ease;
-}
-
-.botaoNovoCurso:hover {
-    background-color: var(--brand-strong);
-}
-  
-  .formulario {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-  
-  .formulario input,
-  .formulario textarea,
-  .formulario select {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font: inherit;
-  }
-  
-  .formulario label {
-    margin-top: 8px;
-    font-weight: 600;
-  }
-
-
 
 @keyframes shimmer {
     0% {

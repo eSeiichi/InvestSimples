@@ -1,95 +1,22 @@
-import { useEffect, useMemo, useState } from "react";
-import { FaSearch, FaRedo, FaEdit, FaPlus } from "react-icons/fa";
-import { getCursos, postCurso, patchCurso } from "../../api/cursos";
-import type { Curso, CreateCurso } from "../../types/Curso";
+import { useMemo, useState } from "react";
+import { FaEdit, FaPlus, FaRedo, FaSearch } from "react-icons/fa";
 import CourseCard from "../../components/Course/CourseCard/CourseCard";
+import CursoForm from "../../components/Course/CourseForm/CourseForm";
+import { useAuth } from "../../Contexts/AuthContext";
+import { useCursos } from "../../hooks/useCursos";
+import { useEditorCursos } from "../../hooks/useEditorCursos";
 import { formatNivel, nivelSlug } from "../../utils/format";
 import styles from "./Cursos.module.css";
-import { useAuth } from "../../Contexts/AuthContext";
-import CustomForm from "../../components/form/CustomForm/CustomForm";
 
 function Cursos() {
   const usuario = useAuth();
-  const [cursos, setCursos] = useState<Curso[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const isAdmin = usuario.usuario?.role === "admin";
+
+  const { cursos, loading, error, recarregar } = useCursos();
+  const editor = useEditorCursos(recarregar);
 
   const [busca, setBusca] = useState("");
   const [nivelSelecionado, setNivelSelecionado] = useState("todos");
-
-  const [modalAberto, setModalAberto] = useState(false);
-  const [cursoEditando, setCursoEditando] = useState<Curso | null>(null);
-  const [salvando, setSalvando] = useState(false);
-  const [erroFormulario, setErroFormulario] = useState<string | null>(null);
-
-  const [tentativa, setTentativa] = useState(0);
-
-  //carregando os cursos da API
-  async function carregarCursos() {
-    setLoading(true);
-    setError(null);
-
-    try {
-      const data = await getCursos();
-      setCursos(data);
-    } catch {
-      setError("Não foi possível carregar os cursos.");
-    } finally {
-      setLoading(false);
-    }
-  }
-  useEffect(() => {
-    carregarCursos();
-  }, []);
-
-  // Função que tenta carregar os cursos novamente
-  function tentarNovamente() {
-    carregarCursos();
-    setTentativa((valor) => valor + 1);
-  }
-
-  // Abre o formulário no modo criação
-  function abrirNovoCurso() {
-    setCursoEditando(null);
-    setErroFormulario(null);
-    setModalAberto(true);
-  }
-
-  // Abre o formulário preenchido para editar
-  function abrirEdicao(curso: Curso) {
-    setCursoEditando(curso);
-    setErroFormulario(null);
-    setModalAberto(true);
-  }
-
-  // Fecha o modal de edição/criação de curso
-  function fecharModal() {
-    if (salvando) return;
-
-    setModalAberto(false);
-    setCursoEditando(null);
-    setErroFormulario(null);
-  }
-
-  // Recebe os dados do formulário e decide entre POST e PATCH
-  async function salvarCurso(data: CreateCurso) {
-    setSalvando(true);
-    setErroFormulario(null);
-
-    try {
-      if (cursoEditando) {
-        await patchCurso(cursoEditando.id, data);
-      } else {
-        await postCurso(data);
-      }
-      await carregarCursos();
-      fecharModal();
-    } catch {
-      setErroFormulario("Não foi possível salvar o curso");
-    } finally {
-      setSalvando(false);
-    }
-  }
 
   // níveis disponíveis a partir dos cursos retornados pela API
   const niveis = useMemo(() => {
@@ -120,6 +47,13 @@ function Cursos() {
     });
   }, [cursos, busca, nivelSelecionado]);
 
+  function limparFiltros() {
+    setBusca("");
+    setNivelSelecionado("todos");
+  }
+
+  const mostrarFiltros = !loading && !error && niveis.length > 0;
+
   return (
     <div className={styles.pagina}>
       <section className={styles.hero}>
@@ -137,7 +71,7 @@ function Cursos() {
               className={styles.busca}
               type="search"
               value={busca}
-              onChange={(evento) => setBusca(evento.target.value)}
+              onChange={(e) => setBusca(e.target.value)}
               placeholder="Qual curso está procurando?"
               aria-label="Buscar cursos"
             />
@@ -146,43 +80,46 @@ function Cursos() {
       </section>
 
       <section className={styles.conteudo}>
-        {/* Botão para o administrador adicionar um curso. */}
-        {usuario.usuario?.role === "admin" && (
-          <div className={styles.acoes}>
-            <button
-              type="button"
-              className={styles.botaoNovoCurso}
-              onClick={abrirNovoCurso}
-            >
-              <FaPlus aria-hidden="true" /> Adicionar curso
-            </button>
-          </div>
-        )}
+        {(mostrarFiltros || isAdmin) && (
+          <div className={styles.barraFiltros}>
+            <div className={styles.filtros}>
+              {mostrarFiltros && (
+                <>
+                  <button
+                    type="button"
+                    className={`${styles.filtro} ${
+                      nivelSelecionado === "todos" ? styles.filtroAtivo : ""
+                    }`}
+                    onClick={() => setNivelSelecionado("todos")}
+                  >
+                    Todos
+                  </button>
 
-        {!loading && !error && niveis.length > 0 && (
-          <div className={styles.filtros}>
-            <button
-              type="button"
-              className={`${styles.filtro} ${
-                nivelSelecionado === "todos" ? styles.filtroAtivo : ""
-              }`}
-              onClick={() => setNivelSelecionado("todos")}
-            >
-              Todos
-            </button>
+                  {niveis.map(([slug, label]) => (
+                    <button
+                      key={slug}
+                      type="button"
+                      className={`${styles.filtro} ${
+                        nivelSelecionado === slug ? styles.filtroAtivo : ""
+                      }`}
+                      onClick={() => setNivelSelecionado(slug)}
+                    >
+                      {formatNivel(label)}
+                    </button>
+                  ))}
+                </>
+              )}
+            </div>
 
-            {niveis.map(([slug, label]) => (
+            {isAdmin && (
               <button
-                key={slug}
                 type="button"
-                className={`${styles.filtro} ${
-                  nivelSelecionado === slug ? styles.filtroAtivo : ""
-                }`}
-                onClick={() => setNivelSelecionado(slug)}
+                className={styles.botaoNovoCurso}
+                onClick={editor.abrirNovoCurso}
               >
-                {formatNivel(label)}
+                <FaPlus aria-hidden="true" /> Adicionar curso
               </button>
-            ))}
+            )}
           </div>
         )}
 
@@ -203,11 +140,7 @@ function Cursos() {
         {!loading && error && (
           <div className={styles.aviso}>
             <p>{error}</p>
-            <button
-              type="button"
-              className={styles.botao}
-              onClick={tentarNovamente}
-            >
+            <button type="button" className={styles.botao} onClick={recarregar}>
               <FaRedo aria-hidden="true" /> Tentar novamente
             </button>
           </div>
@@ -233,13 +166,13 @@ function Cursos() {
                     capa_url={curso.capa_url}
                     total_aulas={curso.total_aulas}
                   />
-                  {usuario.usuario?.role === "admin" && (
+                  {isAdmin && (
                     <button
                       type="button"
                       className={styles.botaoEditar}
-                      onClick={() => abrirEdicao(curso)}
+                      onClick={() => editor.abrirEdicao(curso)}
                     >
-                      <FaEdit aria-hidden="true"> Editar</FaEdit>
+                      <FaEdit aria-hidden="true" /> Editar
                     </button>
                   )}
                 </div>
@@ -257,14 +190,7 @@ function Cursos() {
             </p>
 
             {cursos.length > 0 && (
-              <button
-                type="button"
-                className={styles.botao}
-                onClick={() => {
-                  setBusca("");
-                  setNivelSelecionado("todos");
-                }}
-              >
+              <button type="button" className={styles.botao} onClick={limparFiltros}>
                 Limpar filtros
               </button>
             )}
@@ -272,118 +198,15 @@ function Cursos() {
         )}
       </section>
 
-      {/* Modal de criação/edição. */}
-      {modalAberto && (
+      {editor.modalAberto && (
         <CursoForm
-          curso={cursoEditando}
-          salvando={salvando}
-          erro={erroFormulario}
-          onSubmit={salvarCurso}
-          onClose={fecharModal}
+          curso={editor.cursoEditando}
+          salvando={editor.salvando}
+          erro={editor.erroFormulario}
+          onSubmit={editor.salvarCurso}
+          onClose={editor.fecharModal}
         />
       )}
-    </div>
-  );
-}
-
-type CursoFormProps = {
-  curso: Curso | null;
-  salvando: boolean;
-  erro: string | null;
-  onSubmit: (data: CreateCurso) => Promise<void>;
-  onClose: () => void;
-};
-
-function CursoForm({
-  curso,
-  salvando,
-  erro,
-  onSubmit,
-  onClose,
-}: CursoFormProps) {
-  const [titulo, setTitulo] = useState(curso?.titulo ?? "");
-  const [descricao, setDescricao] = useState(curso?.descricao ?? "");
-  const [nivel, setNivel] = useState(curso?.nivel ?? "");
-  const [capaUrl, setCapaUrl] = useState(curso?.capa_url ?? "");
-
-  async function handleSubmit(evento: React.FormEvent<HTMLFormElement>) {
-    evento.preventDefault();
-
-    await onSubmit({
-      titulo,
-      descricao,
-      nivel,
-      capa_url: capaUrl,
-    });
-  }
-
-  return (
-    <div className={styles.modalOverlay}>
-      <div
-        className={styles.modal}
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="titulo-modal-curso"
-      >
-        <h2 id="titulo-modal-curso">
-          {curso ? "Editar curso" : "Adicionar curso"}
-        </h2>
-
-        <CustomForm onSubmit={handleSubmit}>
-          <label htmlFor="titulo">Título</label>
-          <input
-            id="titulo"
-            value={titulo}
-            onChange={(evento) => setTitulo(evento.target.value)}
-            required
-          />
-
-          <label htmlFor="descricao">Descrição</label>
-          <textarea
-            id="descricao"
-            value={descricao}
-            onChange={(evento) => setDescricao(evento.target.value)}
-            rows={4}
-          />
-
-          <label htmlFor="nivel">Nível</label>
-          <select
-            name="nivel"
-            id="nivel"
-            value={nivel}
-            onChange={(e) => setNivel(e.target.value)}
-          >
-            <option value="Iniciante">Iniciante</option>
-            <option value="Intermediário">Intermediário</option>
-            <option value="Avançado">Avançado</option>
-          </select>
-
-          <label htmlFor="capaUrl">URL da capa</label>
-          <input
-            id="capaUrl"
-            type="url"
-            value={capaUrl}
-            onChange={(evento) => setCapaUrl(evento.target.value)}
-          />
-
-          {erro && <p className={styles.erroFormulario}>{erro}</p>}
-
-          <div className={styles.acoesModal}>
-            <button
-              type="button"
-              className={styles.botaoCancelar}
-              onClick={onClose}
-              disabled={salvando}
-            >
-              Cancelar
-            </button>
-
-            <button type="submit" className={styles.botao} disabled={salvando}>
-              {salvando ? "Salvando..." : "Salvar curso"}
-            </button>
-          </div>
-        </CustomForm>
-      </div>
     </div>
   );
 }

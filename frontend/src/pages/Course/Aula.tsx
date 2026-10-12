@@ -13,7 +13,7 @@ import {
 import { getAula } from "../../api/aulas";
 import type { Aula } from "../../types/Aula";
 import CourseSidebar from "../../components/Course/CourseSidebar/CourseSidebar";
-import AulaForm from "../../components/Course/AulaForm/AulaForm";
+import AulaForm from "../../components/Course/CourseForm/AulaForm";
 import VideoPlayer from "../../Components/VideoPlayer/VideoPlayer";
 import {
   formatDuracao,

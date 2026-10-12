@@ -1,7 +1,7 @@
 import { useState } from "react";
 import type { Aula, AulaData } from "../../../types/Aula";
 import CustomForm from "../../form/CustomForm/CustomForm";
-import styles from "./AulaForm.module.css"
+import styles from "./CourseForm.module.css"
 
 type AulaFormProps = {
   aula: Aula | null;
@@ -35,7 +35,7 @@ function AulaForm({ aula, salvando, erro, onSubmit, onClose }: AulaFormProps) {
   }
 
   return (
-    <div className={styles.modalOverlay}>
+    <div className={styles.overlay}>
       <div
         className={styles.modal}
         role="dialog"
@@ -97,9 +97,9 @@ function AulaForm({ aula, salvando, erro, onSubmit, onClose }: AulaFormProps) {
             onChange={(evento) => setOrdem(Number(evento.target.value))}
           />
 
-          {erro && <p className={styles.erroFormulario}>{erro}</p>}
+          {erro && <p className={styles.erro}>{erro}</p>}
 
-          <div className={styles.acoesModal}>
+          <div className={styles.acoes}>
             <button
               type="button"
               className={styles.botaoCancelar}
@@ -109,7 +109,7 @@ function AulaForm({ aula, salvando, erro, onSubmit, onClose }: AulaFormProps) {
               Cancelar
             </button>
 
-            <button type="submit" className={styles.botao} disabled={salvando}>
+            <button type="submit" className={styles.botaoSalvar} disabled={salvando}>
               {salvando ? "Salvando..." : "Salvar curso"}
             </button>
           </div>

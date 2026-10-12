@@ -21,7 +21,7 @@ import {
 import styles from "./CoursePlayer.module.css";
 import { useAuth } from "../../Contexts/AuthContext";
 import { useEditorAulas } from "../../hooks/useEditorAulas";
-import AulaForm from "../../components/Course/AulaForm/AulaForm";
+import AulaForm from "../../components/Course/CourseForm/AulaForm";
 import { useCurso } from "../../hooks/useCurso";
 
 function Curso() {
@@ -151,7 +151,7 @@ function Curso() {
                 </span>
               </div>
 
-              <div className={styles.acoesEdicao}>
+              <div className={styles.acoes}>
                 {primeiraAula ? (
                   <Link
                     className={styles.botaoPrimario}

@@ -6,7 +6,7 @@ export type Curso = {
   titulo: string;
   descricao?: string | null;
   nivel: string;
-  capa_url?: string;
+  capa_url?: string | null;
   total_aulas: number;
 };
 
@@ -23,14 +23,14 @@ export type ListCurso = {
 
 export type CreateCurso ={
   titulo: string,
-  descricao?: string,
+  descricao?: string | null,
   nivel: string,
-  capa_url?: string
+  capa_url?: string | null
 };
 
 export type UpdateCurso ={
   titulo: string,
-  descricao?: string,
+  descricao?: string | null,
   nivel?: string,
-  capa_url?: string;
+  capa_url?: string | null;
 };
