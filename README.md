@@ -178,7 +178,12 @@ O Vite exibirá no terminal o endereço local para acessar a aplicação. Por pa
 
 http://localhost:5173
 
-### 4. Verifique a conexão entre frontend e backend
+### 4. Configure o arquivo das variáveis de ambiente (.env)
+
+* Crie um arquivo ".env" na raiz do projeto, com as mesmas variáveis presentes no arquivo ".env.example"
+* Substitua os campos indicados
+
+### 5. Verifique a conexão entre frontend e backend
 
 Certifique-se de que:
 
